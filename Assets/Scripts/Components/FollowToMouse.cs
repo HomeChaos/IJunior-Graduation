@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scripts.PlayerWeapon
+namespace Scripts.Components
 {
     public class FollowToMouse : MonoBehaviour
     {

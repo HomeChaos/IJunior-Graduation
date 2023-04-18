@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-namespace Scripts
+namespace Scripts.Components
 {
     public class FollowToTarget : MonoBehaviour
     {

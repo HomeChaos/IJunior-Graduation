@@ -1,4 +1,5 @@
 ﻿using System;
+using Scripts.EnemyScripts;
 using Scripts.PlayerScripts;
 using UnityEngine;
 
@@ -30,9 +31,9 @@ namespace Scripts.PlayerWeapon
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.GetComponent<Player>())
+            if (other.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                
+                enemy.TakeDamage(1);
             }
             else if (other.GetComponent<Wall>())
             {

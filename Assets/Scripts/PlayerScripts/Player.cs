@@ -7,7 +7,6 @@ using UnityEngine;
 namespace Scripts.PlayerScripts
 {
     [RequireComponent(typeof(Animator))]
-    [RequireComponent(typeof(SpriteRenderer))]
     public class Player : MonoBehaviour
     {
         [SerializeField] private float _speed = 5f;
@@ -17,7 +16,6 @@ namespace Scripts.PlayerScripts
         
         private Vector2 _currentDirection;
         private Animator _animator;
-        private SpriteRenderer _spriteRenderer;
 
         public void SetDirection(Vector2 direction)
         {
@@ -35,13 +33,11 @@ namespace Scripts.PlayerScripts
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void Update()
         {
-            //transform.Translate(_currentDirection * _speed * Time.deltaTime);
-            //_currentDirection = Vector2.zero;
+
         }
 
         private void FixedUpdate()

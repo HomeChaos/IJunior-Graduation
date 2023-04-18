@@ -2,7 +2,7 @@
 
 namespace Scripts.PlayerWeapon
 {
-    public class RotationWeapon : RotationObject
+    public class RotationWeapon : MouseRotator
     {
         private void Update()
         {

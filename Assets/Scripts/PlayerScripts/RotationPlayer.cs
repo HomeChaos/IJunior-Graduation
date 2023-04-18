@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Scripts.PlayerWeapon
+namespace Scripts.PlayerScripts
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class RotationPlayer : RotationObject
+    public class RotationPlayer : MouseRotator
     {
         private SpriteRenderer _spriteRenderer;
 

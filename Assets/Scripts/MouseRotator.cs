@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Scripts.PlayerWeapon
+namespace Scripts
 {
-    public class RotationObject : MonoBehaviour
+    public class MouseRotator : MonoBehaviour
     {
         private readonly int LeftSide = -1;
         private readonly int RightSide = 1;
