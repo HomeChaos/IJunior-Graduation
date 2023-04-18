@@ -1,33 +1,32 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 namespace Scripts
 {
-    public class FollowTarget : MonoBehaviour
+    public class FollowToTarget : MonoBehaviour
     {
         [SerializeField] private Transform _target;
-        [SerializeField] private float _time;
-        [SerializeField] private float _offset;
+        [SerializeField] private float _delay;
+        [SerializeField] private float _offset = -10f;
 
-        private Vector3 _targetLastPostion;
+        private Vector3 _targetLastPosition;
         private Tweener _tweener;
 
         private void Start()
         {
             var targetPos = GetTargetPositionWithOffset(_target.position, _offset);
-            _tweener = transform.DOMove(targetPos, _time).SetAutoKill(false);
-            _targetLastPostion = targetPos;
+            _tweener = transform.DOMove(targetPos, _delay).SetAutoKill(false);
+            _targetLastPosition = targetPos;
         }
 
         private void LateUpdate()
         {
             var targetPos = GetTargetPositionWithOffset(_target.position, _offset);
             
-            if (_targetLastPostion.x != _target.position.x || _targetLastPostion.y != _target.position.y)
+            if (_targetLastPosition.x != _target.position.x || _targetLastPosition.y != _target.position.y)
             {
                 _tweener.ChangeEndValue(targetPos, true).Restart();
-                _targetLastPostion = targetPos;
+                _targetLastPosition = targetPos;
             }
         }
 

@@ -2917,8 +2917,8 @@ TextureImporter:
         y: 336
         width: 16
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2938,8 +2938,8 @@ TextureImporter:
         y: 336
         width: 16
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3379,8 +3379,8 @@ TextureImporter:
         y: 304
         width: 16
         height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -5291,7 +5291,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -5312,7 +5312,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -5372,11 +5372,11 @@ TextureImporter:
       DungeonTilesetI_486: 1738722262
       DungeonTilesetI_485: 1723919950
       golem_demon_1: 1903792815
-      DungeonTilesetI_224: -1935208951
+      DungeonTilesetI_139: -1013392228
       DungeonTilesetI_237: 336086241
       Mag_2: 1003713151
       DungeonTilesetI_116: 720241923
-      DungeonTilesetI_139: -1013392228
+      DungeonTilesetI_224: -1935208951
       Player_4: 452234960
       DungeonTilesetI_76: -699970426
       DungeonTilesetI_156: 379624686
@@ -5476,19 +5476,19 @@ TextureImporter:
       Baby_0: -261962895
       DungeonTilesetI_43: 1758228868
       DungeonTilesetI_228: 672402912
-      DungeonTilesetI_16: 1322231983
-      DungeonTilesetI_310: 676424164
+      Slime_4: 1653095384
       DungeonTilesetI_514: 252012661
       DungeonTilesetI_275: 729000720
       DungeonTilesetI_193: -424438140
       Dino_3: 996401423
       DungeonTilesetI_301: 1325880606
-      Slime_4: 1653095384
+      DungeonTilesetI_16: 1322231983
       golem_ogr_0: 551399097
       Slime_6: 1069086470
       DungeonTilesetI_252: 839970372
       DungeonTilesetI_273: -1478650667
       DungeonTilesetI_433: 301902226
+      DungeonTilesetI_310: 676424164
       Demon_7: 1565378216
       Wand_0: -1455042982
       Demon_2: 1492311936
