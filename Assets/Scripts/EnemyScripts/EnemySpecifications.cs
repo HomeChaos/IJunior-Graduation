@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scripts.EnemyScripts
 {
-    [CreateAssetMenu(fileName = "EnemySpecifications", menuName = "Enemy Specifications", order = 52)]
+    [CreateAssetMenu(fileName = "EnemySpecifications", menuName = "Enemys/Enemy Specifications", order = 52)]
     public class EnemySpecifications : ScriptableObject
     {
         [SerializeField] private List<Specification> _specifications;

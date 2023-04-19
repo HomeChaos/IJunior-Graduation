@@ -23,7 +23,7 @@ MonoBehaviour:
   - _type: 1
     _name: "\u0414\u0435\u043C\u043E\u043D"
     _health: 5
-    _speed: 1
+    _speed: 4
     _damage: 5
-    _speedDamage: 0
-    _reward: 0
+    _speedDamage: 2
+    _reward: 10

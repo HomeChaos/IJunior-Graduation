@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d513756637064a078e138f467c941752, type: 3}
+  m_Name: WavesSettings
+  m_EditorClassIdentifier: 
+  _waves:
+  - _packs:
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
+      _count: 2
+    _delay: 10
+  - _packs:
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
+      _count: 3
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
+      _count: 4
+    _delay: 5

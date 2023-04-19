@@ -34,7 +34,7 @@ namespace Scripts
                 return;
 
             if (_currentSprite >= _sprites.Length)
-                _currentSprite = 0;
+                return;
 
             _renderer.sprite = _sprites[_currentSprite];
             _nextFrameTime += _secondsPerFrame;
