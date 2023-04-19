@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Scripts.Components;
 using Scripts.PlayerWeapon;
 using Scripts.Utils;
@@ -9,6 +6,7 @@ using UnityEngine;
 namespace Scripts.PlayerScripts
 {
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Wallet))]
     public class Player : MonoBehaviour, IDamageable
     {
         [SerializeField] private float _speed = 5f;
@@ -18,7 +16,10 @@ namespace Scripts.PlayerScripts
         
         private Vector2 _currentDirection;
         private Animator _animator;
+        private Wallet _wallet;
         private int _health = 100;
+
+        public Wallet Wallet => _wallet;
 
         public void SetDirection(Vector2 direction)
         {
@@ -42,11 +43,7 @@ namespace Scripts.PlayerScripts
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-        }
-
-        private void Update()
-        {
-
+            _wallet = GetComponent<Wallet>();
         }
 
         private void FixedUpdate()

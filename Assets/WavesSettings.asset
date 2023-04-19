@@ -15,11 +15,11 @@ MonoBehaviour:
   _waves:
   - _packs:
     - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
-      _count: 2
+      _count: 5
     _delay: 10
   - _packs:
     - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
-      _count: 3
+      _count: 5
     - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
-      _count: 4
+      _count: 5
     _delay: 5

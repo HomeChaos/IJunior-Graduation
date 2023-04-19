@@ -8,38 +8,43 @@ using UnityEngine.Events;
 namespace Scripts.EnemyScripts
 {
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class Enemy : MonoBehaviour, IDamageable
     {
         [SerializeField] private TypesOfEnemies _enemyType;
         [SerializeField] private float _minDistanceForTarget = 1f;
 
         private readonly int AttackKey = Animator.StringToHash("Attack");
-
         private readonly int BurnKey = Animator.StringToHash("Burn");
-
-        private readonly int RaiseKey = Animator.StringToHash("Raise");
+        private readonly int RaiseKey = Animator.StringToHash("ReRaise");
 
         private IEnumerator _currentState;
         private IEnumerator _current;
         private Animator _animator;
+        private SpriteRenderer _spriteRenderer;
         private Transform _target;
         private Specification _specification;
+        private int _health;
 
-        [SerializeField] private int _health;
+        public TypesOfEnemies EnemyType => _enemyType;
+        public event UnityAction<Enemy, int> OnDie; 
+        
 
-        public event UnityAction<int> OnDie; 
-
-        public void Init(Transform target, EnemySpecifications specifications)
+        public void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
         {
             if (_animator == null)
                 _animator = GetComponent<Animator>();
             
             if (_specification == null)
                 _specification = specifications.GetSpecification(_enemyType);
+
+            if (_spriteRenderer == null)
+                _spriteRenderer = GetComponent<SpriteRenderer>();
             
             _health = _specification.Health;
             _target = target;
-            //_animator.Play(RaiseKey);
+            transform.position = newPosition;
+            //_animator.SetTrigger(RaiseKey);
         }
 
         public void TakeDamage(int damage)
@@ -48,7 +53,7 @@ namespace Scripts.EnemyScripts
             
             if (_health <= 0)
             {
-                OnDie?.Invoke(_specification.Reward);
+                OnDie?.Invoke(this, _specification.Reward);
                 StartState(Stop());
                 _animator.SetTrigger(BurnKey);
                 //Destroy(gameObject);
@@ -66,6 +71,18 @@ namespace Scripts.EnemyScripts
             return x >= _minDistanceForTarget;
         }
         
+        private void UpdateSpriteRender(Vector3 direction)
+        {
+            if (direction.x > 0)
+            {
+                _spriteRenderer.flipX = false;
+            }
+            else if (direction.x < 0)
+            {
+                _spriteRenderer.flipX = true;
+            }
+        }
+        
         private IEnumerator GoToTarget()
         {
             var waitForEndOfFrame = new WaitForEndOfFrame();
@@ -73,6 +90,7 @@ namespace Scripts.EnemyScripts
             while (IsTargetFarAway())
             {
                 var direction = _target.position - transform.position;
+                UpdateSpriteRender(direction);
                 transform.Translate(direction.normalized * _specification.Speed * Time.deltaTime);
                 yield return waitForEndOfFrame;
             }
