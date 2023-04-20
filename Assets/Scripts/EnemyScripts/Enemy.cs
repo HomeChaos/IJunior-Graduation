@@ -16,7 +16,7 @@ namespace Scripts.EnemyScripts
 
         private readonly int AttackKey = Animator.StringToHash("Attack");
         private readonly int BurnKey = Animator.StringToHash("Burn");
-        private readonly int RaiseKey = Animator.StringToHash("ReRaise");
+        private readonly float _delayBeforeAttack = 0.2f;
 
         private IEnumerator _currentState;
         private IEnumerator _current;
@@ -27,24 +27,22 @@ namespace Scripts.EnemyScripts
         private int _health;
 
         public TypesOfEnemies EnemyType => _enemyType;
-        public event UnityAction<Enemy, int> OnDie; 
-        
+        public event UnityAction<Enemy, int> OnDie;
+
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
         public void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
         {
-            if (_animator == null)
-                _animator = GetComponent<Animator>();
-            
             if (_specification == null)
                 _specification = specifications.GetSpecification(_enemyType);
-
-            if (_spriteRenderer == null)
-                _spriteRenderer = GetComponent<SpriteRenderer>();
             
             _health = _specification.Health;
             _target = target;
             transform.position = newPosition;
-            //_animator.SetTrigger(RaiseKey);
         }
 
         public void TakeDamage(int damage)
@@ -56,7 +54,6 @@ namespace Scripts.EnemyScripts
                 OnDie?.Invoke(this, _specification.Reward);
                 StartState(Stop());
                 _animator.SetTrigger(BurnKey);
-                //Destroy(gameObject);
             }
         }
 
@@ -102,6 +99,8 @@ namespace Scripts.EnemyScripts
         {
             var waitForSeconds = new WaitForSeconds(_specification.SpeedDamage);
             IDamageable playerHealth = _target.GetComponent<IDamageable>();
+            
+            yield return new WaitForSeconds(_delayBeforeAttack);
             
             while (IsTargetFarAway() == false)
             {

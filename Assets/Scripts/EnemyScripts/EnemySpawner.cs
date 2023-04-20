@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripts.PlayerScripts;
-using Scripts.Utils;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,6 +17,8 @@ namespace Scripts.EnemyScripts
         [SerializeField] private int _maxCountOfEnemy = 25;
         [SerializeField] private Transform _target;
 
+        private readonly float _delayBeforeSpawning = 0.3f;
+        
         private List<Enemy> _pool;
         private int _currentWaveNumber = 0;
         private int _currentSpawned;
@@ -27,7 +27,12 @@ namespace Scripts.EnemyScripts
         private float maxPositionX;
         private float minPositionY;
         private float maxPositionY;
-        
+
+
+        private void Start()
+        {
+            StartSpawn();
+        }
 
         [ContextMenu("! StartSpawn")]
         private void StartSpawn()
@@ -39,17 +44,19 @@ namespace Scripts.EnemyScripts
             maxPositionX = spawnZoneSize.x / 2f;
             minPositionY = -spawnZoneSize.y / 2;
             maxPositionY = spawnZoneSize.y / 2f;
-            Debug.Log($"x: {minPositionX}| {maxPositionX}; y: {minPositionY}|{maxPositionY}");
+
             StartCoroutine(Spawn());
         }
 
         private IEnumerator Spawn()
         {
             bool isSpawnerWork = true;
+            var waitDelayBeforeSpawning = new WaitForSeconds(_delayBeforeSpawning);
             
             while (isSpawnerWork)
             {
-                ConsoleTools.LogInfo($"Start new Wave: {_currentWaveNumber+1}");
+                var waitForNextPack = new WaitForSeconds(_wavesSettings.Waves[_currentWaveNumber].DelayBetweenPackets);
+                
                 foreach (var pack in _wavesSettings.Waves[_currentWaveNumber].Packs)
                 {
                     for (int i = 0; i < pack.Count; i++)
@@ -58,17 +65,17 @@ namespace Scripts.EnemyScripts
                         {
                             InstantiateEnemy(pack.EnemyTemplate);
                             _currentSpawned++;
-                            yield return new WaitForSeconds(0.3f);
+                            yield return waitDelayBeforeSpawning;
                         }
                     }
                     
-                    yield return new WaitForSeconds(_wavesSettings.Waves[_currentWaveNumber].Delay);
+                    yield return waitForNextPack;
                 }
 
                 _currentWaveNumber++;
+                
                 if (_currentWaveNumber >= _wavesSettings.Waves.Count)
                 {
-                    ConsoleTools.LogError("Spawner отработал! Сброс на последнюю волну");
                     _currentWaveNumber--;
                 }
             }
@@ -81,24 +88,25 @@ namespace Scripts.EnemyScripts
             var newPositionX = Random.Range(minPositionX, maxPositionX);
             var newPositionY = Random.Range(minPositionY, maxPositionY);
 
-            if (TryGetEnemy(typeOfNewEnemy, out Enemy oldEnemy))
+            Enemy enemyForSpawn;
+            
+            if (TryGetEnemy(typeOfNewEnemy, out enemyForSpawn))
             {
-                oldEnemy.gameObject.SetActive(true);
-                oldEnemy.Init(_target, _specifications, new Vector2(newPositionX, newPositionY));
-                oldEnemy.OnDie += OnEnemyDying;
+                enemyForSpawn.gameObject.SetActive(true);
             }
             else
             {
-                Enemy newEnemy = Instantiate(template, _container.transform).GetComponent<Enemy>();
-                newEnemy.Init(_target, _specifications, new Vector2(newPositionX, newPositionY));
-                newEnemy.OnDie += OnEnemyDying;
-                _pool.Add(newEnemy);
+                enemyForSpawn = Instantiate(template, _container.transform).GetComponent<Enemy>();
+                _pool.Add(enemyForSpawn);
             }
+            
+            enemyForSpawn.Init(_target, _specifications, new Vector2(newPositionX, newPositionY));
+            enemyForSpawn.OnDie += OnEnemyDying;
         }
 
         private bool TryGetEnemy(TypesOfEnemies enemyEnemyType, out Enemy enemy)
         { 
-            enemy = _pool.FirstOrDefault(x => x.EnemyType == enemyEnemyType && x.gameObject.active == false);
+            enemy = _pool.FirstOrDefault(x => x.EnemyType == enemyEnemyType && x.gameObject.activeSelf == false);
             return enemy != null;
         }
 

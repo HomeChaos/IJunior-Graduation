@@ -14,12 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waves:
   - _packs:
-    - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
-      _count: 5
-    _delay: 10
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
+      _count: 3
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
+      _count: 3
+    _delayBetweenPackets: 1
   - _packs:
     - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
+      _count: 3
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
+      _count: 4
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
+      _count: 3
+    _delayBetweenPackets: 1
+  - _packs:
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
+      _count: 3
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 40921093cb8dda6488515c5bacd5a8d9, type: 3}
+      _count: 5
+    _delayBetweenPackets: 4
+  - _packs:
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
       _count: 5
     - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
-      _count: 5
-    _delay: 5
+      _count: 4
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 40921093cb8dda6488515c5bacd5a8d9, type: 3}
+      _count: 4
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
+      _count: 4
+    _delayBetweenPackets: 1

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Scripts.PlayerWeapon
@@ -7,10 +9,18 @@ namespace Scripts.PlayerWeapon
     public class Weapon : MonoBehaviour
     {
         [SerializeField] private GameObject _bullet;
+        [SerializeField] private Transform _shootPoint;
+        [SerializeField] private GameObject _container;
         [SerializeField] private float _rateOfFire;
 
         private Coroutine _currentCoroutine;
+        private List<Bullet> _bullets;
         private float _timeUp;
+
+        private void Start()
+        {
+            _bullets = new List<Bullet>(); 
+        }
 
         public void StartShoot()
         {
@@ -35,14 +45,35 @@ namespace Scripts.PlayerWeapon
             {
                 if (_timeUp <= Time.time)
                 {
-                    var bullet = Instantiate(_bullet, transform.position, transform.rotation);
-                    bullet.GetComponent<Bullet>().Init(transform.rotation);
-
+                    InstantiateBullet();
                     _timeUp = Time.time + _rateOfFire;
                 }
 
                 yield return waitForEndOfFrame;
             }
+        }
+
+        private void InstantiateBullet()
+        {
+            Bullet newBullet;
+
+            if (TryGetBullet(out newBullet))
+            {
+                newBullet.gameObject.SetActive(true);
+            }
+            else
+            {
+                newBullet = Instantiate(_bullet, _container.transform).GetComponent<Bullet>();
+                _bullets.Add(newBullet);
+            }
+            
+            newBullet.Init(_shootPoint.transform.position, _shootPoint.transform.rotation);
+        }
+
+        private bool TryGetBullet(out Bullet newBullet)
+        {
+            newBullet = _bullets.FirstOrDefault(x => x.gameObject.activeSelf == false);
+            return newBullet != null;
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using Scripts.Utils;
+﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scripts.PlayerScripts
 {
@@ -7,10 +8,17 @@ namespace Scripts.PlayerScripts
     {
         private int _money;
 
+        public event UnityAction<int, int> OnMoneyChange;
+
+        private void Start()
+        {
+            OnMoneyChange?.Invoke(0,0);
+        }
+
         public void AddMoney(int value)
         {
             _money += value;
-            ConsoleTools.LogSuccess($"Money: {_money}");
+            OnMoneyChange?.Invoke(_money, value);
         }
     }
 }

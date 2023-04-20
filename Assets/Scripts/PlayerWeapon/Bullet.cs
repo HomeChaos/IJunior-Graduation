@@ -9,6 +9,7 @@ namespace Scripts.PlayerWeapon
     public class Bullet : MonoBehaviour
     {
         [SerializeField] private float _speed;
+        [SerializeField] private int _damage = 1;
 
         private Rigidbody2D _rigidbody2D;
         private Vector2 _direction;
@@ -19,8 +20,10 @@ namespace Scripts.PlayerWeapon
             _rigidbody2D.gravityScale = 0;
         }
 
-        public void Init(Quaternion transformRotation)
+        public void Init(Vector3 transformPosition, Quaternion transformRotation)
         {
+            transform.position = transformPosition;
+            transform.rotation = transformRotation;
             transform.Rotate(0, 0, 90, Space.Self);
         }
 
@@ -33,12 +36,12 @@ namespace Scripts.PlayerWeapon
         {
             if (other.TryGetComponent(out Enemy enemy))
             {
-                enemy.TakeDamage(1);
-                Destroy(gameObject);
+                enemy.TakeDamage(_damage);
+                gameObject.SetActive(false);
             }
             else if (other.GetComponent<Wall>())
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }

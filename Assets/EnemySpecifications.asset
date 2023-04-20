@@ -16,14 +16,21 @@ MonoBehaviour:
   - _type: 0
     _name: "\u0414\u0435\u043C\u043E\u043D\u0435\u043D\u043E\u043A"
     _health: 1
-    _speed: 10
-    _damage: 3
-    _speedDamage: 0
-    _reward: 0
-  - _type: 1
-    _name: "\u0414\u0435\u043C\u043E\u043D"
-    _health: 5
-    _speed: 4
-    _damage: 5
+    _speed: 7
+    _damage: 1
     _speedDamage: 2
     _reward: 10
+  - _type: 1
+    _name: "\u0414\u0435\u043C\u043E\u043D"
+    _health: 3
+    _speed: 6
+    _damage: 2
+    _speedDamage: 2
+    _reward: 25
+  - _type: 2
+    _name: "\u0414\u0435\u043C\u043E\u043D \u0433\u043E\u043B\u0435\u043C"
+    _health: 5
+    _speed: 6
+    _damage: 3
+    _speedDamage: 3
+    _reward: 50

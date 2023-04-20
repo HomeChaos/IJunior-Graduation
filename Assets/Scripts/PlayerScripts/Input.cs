@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Scripts.PlayerScripts
 {
@@ -13,33 +14,33 @@ namespace Scripts.PlayerScripts
             _input = new PlayerInput();
             _input.Enable();
 
-            _input.Player.Move.performed += context => Movement();
-            _input.Player.Move.canceled += context => Movement();
-            
-            _input.Player.Shoot.started += context => OnStartShoot();
-            _input.Player.Shoot.canceled += context => OnEndShoot();
+            _input.Player.Move.performed += Movement;
+            _input.Player.Move.canceled += Movement;
+
+            _input.Player.Shoot.started += OnStartShoot;
+            _input.Player.Shoot.canceled += OnEndShoot;
         }
 
         private void OnDisable()
         {
-            _input.Player.Move.performed -= context => Movement();
-            _input.Player.Move.canceled -= context => Movement();
-            
-            _input.Player.Shoot.started -= context => OnStartShoot();
-            _input.Player.Shoot.canceled -= context => OnEndShoot();
+            _input.Player.Move.performed -= Movement;
+            _input.Player.Move.canceled -= Movement;
+
+            _input.Player.Shoot.started -= OnStartShoot;
+            _input.Player.Shoot.canceled -= OnEndShoot;
         }
 
-        private void OnStartShoot()
+        private void OnEndShoot(InputAction.CallbackContext context)
+        {
+            _player.SetShooting(isShooting: false);
+        }
+
+        private void OnStartShoot(InputAction.CallbackContext context)
         {
             _player.SetShooting(isShooting:true);
         }
 
-        private void OnEndShoot()
-        {
-            _player.SetShooting(isShooting:false);
-        }
-
-        private void Movement()
+        private void Movement(InputAction.CallbackContext context)
         {
             var direction = _input.Player.Move.ReadValue<Vector2>();
             _player.SetDirection(direction);

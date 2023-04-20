@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using DG.Tweening;
 
 namespace Scripts.Components
@@ -28,6 +29,11 @@ namespace Scripts.Components
                 _tweener.ChangeEndValue(targetPos, true).Restart();
                 _targetLastPosition = targetPos;
             }
+        }
+
+        private void OnDestroy()
+        {
+            _tweener.Kill();
         }
 
         private Vector3 GetTargetPositionWithOffset(Vector3 target, float offset)

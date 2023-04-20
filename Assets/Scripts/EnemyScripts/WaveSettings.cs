@@ -15,10 +15,10 @@ namespace Scripts.EnemyScripts
     public class Wave
     {
         [SerializeField] private List<Pack> _packs;
-        [SerializeField] private float _delay;
+        [SerializeField] private float _delayBetweenPackets;
 
         public List<Pack> Packs => _packs;
-        public float Delay => _delay;
+        public float DelayBetweenPackets => _delayBetweenPackets;
     }
 
     [System.Serializable]

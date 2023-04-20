@@ -1,7 +1,9 @@
+using System;
 using Scripts.Components;
 using Scripts.PlayerWeapon;
 using Scripts.Utils;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scripts.PlayerScripts
 {
@@ -11,15 +13,17 @@ namespace Scripts.PlayerScripts
     {
         [SerializeField] private float _speed = 5f;
         [SerializeField] private Weapon _weapon;
+        [SerializeField] private int _health = 1;
 
         private readonly int IsRunningKey = Animator.StringToHash("isRunnig");
-        
+
         private Vector2 _currentDirection;
         private Animator _animator;
         private Wallet _wallet;
-        private int _health = 100;
 
         public Wallet Wallet => _wallet;
+        public event UnityAction Dying;
+        public event UnityAction<int> OnHealthChange; 
 
         public void SetDirection(Vector2 direction)
         {
@@ -36,14 +40,22 @@ namespace Scripts.PlayerScripts
 
         public void TakeDamage(int damage)
         {
-            ConsoleTools.LogSuccess("УРОН ГЕРОЮ", 14);
             _health -= damage;
+            OnHealthChange?.Invoke(_health);
+            
+            if (_health <= 0)
+                Dying?.Invoke();
         }
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
             _wallet = GetComponent<Wallet>();
+        }
+
+        private void Start()
+        {
+            OnHealthChange?.Invoke(_health);
         }
 
         private void FixedUpdate()
