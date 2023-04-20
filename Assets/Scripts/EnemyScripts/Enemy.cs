@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Scripts.Components;
-using Scripts.PlayerScripts;
 using UnityEngine;
 using UnityEngine.Events;
 
