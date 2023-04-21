@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Scripts.PlayerWeapon
+namespace Scripts.Weapon.PlayerWeapon
 {
     public class RotationWeapon : MouseRotator
     {

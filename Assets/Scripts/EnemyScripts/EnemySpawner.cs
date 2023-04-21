@@ -19,7 +19,7 @@ namespace Scripts.EnemyScripts
 
         private readonly float _delayBeforeSpawning = 0.3f;
         
-        private List<Enemy> _pool;
+        private List<EnemyBase> _pool;
         private int _currentWaveNumber = 0;
         private int _currentSpawned;
 
@@ -37,7 +37,7 @@ namespace Scripts.EnemyScripts
         [ContextMenu("! StartSpawn")]
         private void StartSpawn()
         {
-            _pool = new List<Enemy>();
+            _pool = new List<EnemyBase>();
 
             var spawnZoneSize = _spawnZone.transform.localScale;
             minPositionX = -spawnZoneSize.x / 2f;
@@ -83,12 +83,12 @@ namespace Scripts.EnemyScripts
 
         private void InstantiateEnemy(GameObject template)
         {
-            var typeOfNewEnemy = template.GetComponent<Enemy>().EnemyType;
+            var typeOfNewEnemy = template.GetComponent<EnemyBase>().EnemyType;
 
             var newPositionX = Random.Range(minPositionX, maxPositionX);
             var newPositionY = Random.Range(minPositionY, maxPositionY);
 
-            Enemy enemyForSpawn;
+            EnemyBase enemyForSpawn;
             
             if (TryGetEnemy(typeOfNewEnemy, out enemyForSpawn))
             {
@@ -96,7 +96,7 @@ namespace Scripts.EnemyScripts
             }
             else
             {
-                enemyForSpawn = Instantiate(template, _container.transform).GetComponent<Enemy>();
+                enemyForSpawn = Instantiate(template, _container.transform).GetComponent<EnemyBase>();
                 _pool.Add(enemyForSpawn);
             }
             
@@ -104,15 +104,15 @@ namespace Scripts.EnemyScripts
             enemyForSpawn.OnDie += OnEnemyDying;
         }
 
-        private bool TryGetEnemy(TypesOfEnemies enemyEnemyType, out Enemy enemy)
+        private bool TryGetEnemy(TypesOfEnemies enemyEnemyType, out EnemyBase enemyDemon)
         { 
-            enemy = _pool.FirstOrDefault(x => x.EnemyType == enemyEnemyType && x.gameObject.activeSelf == false);
-            return enemy != null;
+            enemyDemon = _pool.FirstOrDefault(x => x.EnemyType == enemyEnemyType && x.gameObject.activeSelf == false);
+            return enemyDemon != null;
         }
 
-        private void OnEnemyDying(Enemy enemy, int reward)
+        private void OnEnemyDying(EnemyBase enemyDemon, int reward)
         {
-            enemy.OnDie -= OnEnemyDying;
+            enemyDemon.OnDie -= OnEnemyDying;
             _target.gameObject.GetComponent<Player>().Wallet.AddMoney(reward);
             _currentSpawned--;
         }

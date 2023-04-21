@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Scripts.PlayerScripts
@@ -23,6 +24,8 @@ namespace Scripts.PlayerScripts
 
         private void OnDisable()
         {
+            _input.Disable();
+            
             _input.Player.Move.performed -= Movement;
             _input.Player.Move.canceled -= Movement;
 

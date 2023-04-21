@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Scripts.PlayerWeapon
+namespace Scripts.Weapon.PlayerWeapon
 {
-    public class Weapon : MonoBehaviour
+    public class PlayerWeapon : MonoBehaviour
     {
         [SerializeField] private GameObject _bullet;
         [SerializeField] private Transform _shootPoint;

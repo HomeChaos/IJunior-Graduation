@@ -4,6 +4,7 @@
     {
         LittleDemon,
         Demon,
-        BigDemon
+        BigDemon,
+        Mag
     }
 }

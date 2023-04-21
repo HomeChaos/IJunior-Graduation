@@ -1,7 +1,5 @@
-using System;
 using Scripts.Components;
-using Scripts.PlayerWeapon;
-using Scripts.Utils;
+using Scripts.Weapon.PlayerWeapon;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +10,7 @@ namespace Scripts.PlayerScripts
     public class Player : MonoBehaviour, IDamageable
     {
         [SerializeField] private float _speed = 5f;
-        [SerializeField] private Weapon _weapon;
+        [SerializeField] private PlayerWeapon playerWeapon;
         [SerializeField] private int _health = 1;
 
         private readonly int IsRunningKey = Animator.StringToHash("isRunnig");
@@ -33,9 +31,9 @@ namespace Scripts.PlayerScripts
         public void SetShooting(bool isShooting)
         {
             if (isShooting)
-                _weapon.StartShoot();
+                playerWeapon.StartShoot();
             else
-                _weapon.StopShoot();
+                playerWeapon.StopShoot();
         }
 
         public void TakeDamage(int damage)

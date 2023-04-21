@@ -29,7 +29,7 @@ namespace Scripts.UI
 
         private void OnHealthChange(int health)
         {
-            if (health == 0)
+            if (health <= 0)
             {
                 RemoveAllHearts();
                 return;
