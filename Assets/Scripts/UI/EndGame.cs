@@ -14,6 +14,9 @@ namespace Scripts.UI
         [SerializeField] private Player _player;
         [SerializeField] private Image _background;
         [SerializeField] private float _time = 10f;
+        [SerializeField] private Animator _curtainAnimator;
+        
+        private readonly int ShowKey = Animator.StringToHash("Show");
 
         private Coroutine _coroutine;
 
@@ -47,7 +50,7 @@ namespace Scripts.UI
 
         private void RestartGame()
         {
-            SceneManager.LoadScene(0);
+            _curtainAnimator.SetTrigger(ShowKey);
         }
     }
 }
