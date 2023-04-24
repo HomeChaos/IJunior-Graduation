@@ -7,9 +7,11 @@ namespace Scripts.EnemyScripts
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(AudioSource))]
     public abstract class EnemyBase : MonoBehaviour, IDamageable
     {
         [SerializeField] private TypesOfEnemies _enemyType;
+        [SerializeField] private AudioClip _burnSound;
 
         private readonly int BurnKey = Animator.StringToHash("Burn");
         
@@ -18,10 +20,11 @@ namespace Scripts.EnemyScripts
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
         private Specification _specification;
+        private AudioSource _audioSource;
         private int _health;
 
         public event UnityAction<EnemyBase, int> OnDie;
-        
+
         public TypesOfEnemies EnemyType => _enemyType;
 
         protected Transform Target => _target;
@@ -47,6 +50,7 @@ namespace Scripts.EnemyScripts
                 OnDie?.Invoke(this, _specification.Reward);
                 StartState(Stop());
                 _animator.SetTrigger(BurnKey);
+                _audioSource.PlayOneShot(_burnSound);
             }
         }
 
@@ -87,6 +91,7 @@ namespace Scripts.EnemyScripts
         {
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
         protected void StartEnemy()

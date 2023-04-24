@@ -26,18 +26,18 @@ MonoBehaviour:
     _speed: 6
     _damage: 2
     _speedDamage: 2
-    _reward: 25
+    _reward: 20
   - _type: 2
     _name: "\u0414\u0435\u043C\u043E\u043D \u0433\u043E\u043B\u0435\u043C"
     _health: 5
     _speed: 5
     _damage: 3
     _speedDamage: 3
-    _reward: 50
+    _reward: 35
   - _type: 3
     _name: "\u041C\u0430\u0433"
     _health: 2
-    _speed: 6
+    _speed: 8
     _damage: 1
     _speedDamage: 1
-    _reward: 30
+    _reward: 50

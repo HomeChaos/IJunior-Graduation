@@ -17,10 +17,15 @@ namespace Scripts.EnemyScripts
         private readonly int AttackKey = Animator.StringToHash("Attack");
         private readonly float _delayBeforeAttack = 0.4f;
 
+        private EnemyBulletPool _pool;
+
         public override void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
         {
             base.Init(target, specifications, newPosition);
             _weapon.Init(target);
+
+            if (_pool == null)
+                _pool = FindObjectOfType<EnemyBulletPool>();
         }
 
         protected override IEnumerator GoToTarget()
@@ -54,7 +59,7 @@ namespace Scripts.EnemyScripts
         protected override IEnumerator AttackTarget()
         {
             LookToTarget();
-            var waitForSeconds = new WaitForSeconds(2f);
+            var waitForSeconds = new WaitForSeconds(Specification.SpeedDamage);
             var currentDistance = Vector3.Distance(Target.position, transform.position);
 
             yield return new WaitForSeconds(_delayBeforeAttack);
@@ -62,14 +67,9 @@ namespace Scripts.EnemyScripts
             while (_minDistance < currentDistance && currentDistance < _maxDistance)
             {
                 LookToTarget();
-                
-                var bullet = Instantiate(_bullet, _container.transform).GetComponent<Bullet>();
-                bullet.gameObject.SetActive(true);
-                bullet.Init(_shootPoint.transform.position, _shootPoint.transform.rotation);
-                bullet.SetNewDamage(Specification.Damage);
-                
+                _pool.Shoot(_bullet, _shootPoint.transform, Specification.Damage);
                 Animator.SetTrigger(AttackKey);
-                
+
                 yield return waitForSeconds;
                 currentDistance = Vector3.Distance(Target.position, transform.position);
             }

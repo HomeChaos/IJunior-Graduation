@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripts.PlayerScripts;
+using Scripts.Weapon.EnemyWeapon;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

@@ -1,25 +1,28 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Scripts.Weapon.PlayerWeapon
 {
+    [RequireComponent(typeof(AudioSource))]
     public class PlayerWeapon : MonoBehaviour
     {
         [SerializeField] private GameObject _bullet;
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private GameObject _container;
         [SerializeField] private float _rateOfFire;
+        [SerializeField] private AudioClip _shootClip;
 
         private Coroutine _currentCoroutine;
         private List<Bullet> _bullets;
         private float _timeUp;
+        private AudioSource _source;
 
         private void Start()
         {
-            _bullets = new List<Bullet>(); 
+            _bullets = new List<Bullet>();
+            _source = GetComponent<AudioSource>();
         }
 
         public void StartShoot()
@@ -46,6 +49,7 @@ namespace Scripts.Weapon.PlayerWeapon
                 if (_timeUp <= Time.time)
                 {
                     InstantiateBullet();
+                    _source.PlayOneShot(_shootClip);
                     _timeUp = Time.time + _rateOfFire;
                 }
 

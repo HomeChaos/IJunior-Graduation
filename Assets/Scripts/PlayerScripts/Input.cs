@@ -33,14 +33,14 @@ namespace Scripts.PlayerScripts
             _input.Player.Shoot.canceled -= OnEndShoot;
         }
 
-        private void OnEndShoot(InputAction.CallbackContext context)
-        {
-            _player.SetShooting(isShooting: false);
-        }
-
         private void OnStartShoot(InputAction.CallbackContext context)
         {
             _player.SetShooting(isShooting:true);
+        }
+
+        private void OnEndShoot(InputAction.CallbackContext context)
+        {
+            _player.SetShooting(isShooting: false);
         }
 
         private void Movement(InputAction.CallbackContext context)

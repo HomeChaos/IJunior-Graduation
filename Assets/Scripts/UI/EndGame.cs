@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Scripts.UI
 {
@@ -11,6 +12,10 @@ namespace Scripts.UI
         [SerializeField] private Button _exit;
         [SerializeField] private GameObject _panel;
         [SerializeField] private Player _player;
+        [SerializeField] private Image _background;
+        [SerializeField] private float _time = 10f;
+
+        private Coroutine _coroutine;
 
         private void OnEnable()
         {
@@ -28,8 +33,8 @@ namespace Scripts.UI
 
         private void OnDying()
         {
-            Time.timeScale = 0;
             _panel.SetActive(true);
+            _background.DOFade(1, _time);
         }
 
         private void ExitGame()
@@ -42,7 +47,6 @@ namespace Scripts.UI
 
         private void RestartGame()
         {
-            Time.timeScale = 1;
             SceneManager.LoadScene(0);
         }
     }
