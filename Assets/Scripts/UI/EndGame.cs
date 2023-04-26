@@ -1,8 +1,10 @@
-﻿using Scripts.PlayerScripts;
+﻿using System;
+using Scripts.PlayerScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using IJunior.TypedScenes;
 
 namespace Scripts.UI
 {
@@ -14,11 +16,12 @@ namespace Scripts.UI
         [SerializeField] private Player _player;
         [SerializeField] private Image _background;
         [SerializeField] private float _time = 10f;
-        [SerializeField] private Animator _curtainAnimator;
-        
-        private readonly int ShowKey = Animator.StringToHash("Show");
+        [SerializeField] private Curtain _curtain;
 
         private Coroutine _coroutine;
+        private Tweener _tweener;
+
+        private delegate void LoadScene();
 
         private void OnEnable()
         {
@@ -37,20 +40,32 @@ namespace Scripts.UI
         private void OnDying()
         {
             _panel.SetActive(true);
-            _background.DOFade(1, _time);
+            _tweener = _background.DOFade(1, _time);
         }
 
         private void ExitGame()
         {
-            Application.Quit();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
+            LoadScene loadMainMenu = () => IJunior.TypedScenes.MainMenu.Load();
+            _curtain.AnimationOver += () => LoadNextScene(loadMainMenu);
+            _curtain.ShowCurtain();
         }
 
         private void RestartGame()
         {
-            _curtainAnimator.SetTrigger(ShowKey);
+            LoadScene loadGame = () => IJunior.TypedScenes.Game.Load();
+            _curtain.AnimationOver += () => LoadNextScene(loadGame);
+            _curtain.ShowCurtain();
+        }
+
+        private void LoadNextScene(LoadScene loadScene)
+        {
+            _curtain.AnimationOver -= () => LoadNextScene(loadScene);
+            loadScene();
+        }
+
+        private void OnDestroy()
+        {
+            _tweener.Kill();
         }
     }
 }

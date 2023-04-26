@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Scripts.Components;
+using Scripts.Settings;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,6 +23,7 @@ namespace Scripts.EnemyScripts
         private SpriteRenderer _spriteRenderer;
         private Specification _specification;
         private AudioSource _audioSource;
+        private SoundSettings _soundSettings;
         private int _health;
 
         public event UnityAction<EnemyBase, int> OnDie;
@@ -92,6 +95,13 @@ namespace Scripts.EnemyScripts
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _audioSource = GetComponent<AudioSource>();
+            _soundSettings = SoundUtils.FindSoundSettings();
+        }
+
+        private void Start()
+        {
+            float volumeCorrection = 0.5f;
+            _audioSource.volume = _soundSettings.SfxVolume / volumeCorrection;
         }
 
         protected void StartEnemy()

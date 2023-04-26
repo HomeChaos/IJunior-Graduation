@@ -10,9 +10,14 @@ namespace Scripts.PlayerScripts
 
         public event UnityAction<int, int> OnMoneyChange;
 
+        public void Init(int money)
+        {
+            _money = money;
+        }
+
         private void Start()
         {
-            OnMoneyChange?.Invoke(0,0);
+            OnMoneyChange?.Invoke(_money,0);
         }
 
         public void AddMoney(int value)

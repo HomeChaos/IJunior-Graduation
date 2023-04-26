@@ -1,4 +1,6 @@
+using System;
 using Scripts.Components;
+using Scripts.Settings;
 using Scripts.Weapon.PlayerWeapon;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +14,6 @@ namespace Scripts.PlayerScripts
     {
         [SerializeField] private float _speed = 5f;
         [SerializeField] private PlayerWeapon _playerWeapon;
-        [SerializeField] private int _health = 1;
         [SerializeField] private ParticleSystem _hitParticle;
         [SerializeField] private AudioClip _hitClip;
 
@@ -23,6 +24,8 @@ namespace Scripts.PlayerScripts
         private Animator _animator;
         private Wallet _wallet;
         private AudioSource _audioSource;
+        private SoundSettings _soundSettings;
+        private int _health = 1;
 
         public Wallet Wallet => _wallet;
         public event UnityAction Dying;
@@ -60,16 +63,23 @@ namespace Scripts.PlayerScripts
             }
         }
 
+        public void Init(int health)
+        {
+            _health = health;
+        }
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();
             _wallet = GetComponent<Wallet>();
             _audioSource = GetComponent<AudioSource>();
+            _soundSettings = SoundUtils.FindSoundSettings();
         }
 
         private void Start()
         {
             OnHealthChange?.Invoke(_health);
+            _audioSource.volume = _soundSettings.SfxVolume;
         }
 
         private void FixedUpdate()

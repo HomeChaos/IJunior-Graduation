@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Scripts.Settings;
 using UnityEngine;
 
 namespace Scripts.Weapon.PlayerWeapon
@@ -18,12 +20,7 @@ namespace Scripts.Weapon.PlayerWeapon
         private List<Bullet> _bullets;
         private float _timeUp;
         private AudioSource _source;
-
-        private void Start()
-        {
-            _bullets = new List<Bullet>();
-            _source = GetComponent<AudioSource>();
-        }
+        private SoundSettings _soundSettings;
 
         public void StartShoot()
         {
@@ -37,6 +34,23 @@ namespace Scripts.Weapon.PlayerWeapon
         {
             if (_currentCoroutine != null)
                 StopCoroutine(_currentCoroutine);
+        }
+
+        public void Init(float rate)
+        {
+            _rateOfFire = rate;
+        }
+
+        private void Awake()
+        {
+            _bullets = new List<Bullet>();
+            _soundSettings = SoundUtils.FindSoundSettings();
+            _source = GetComponent<AudioSource>();
+        }
+
+        private void Start()
+        {
+            _source.volume = _soundSettings.SfxVolume;
         }
 
         private IEnumerator Shoot()
