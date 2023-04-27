@@ -1,14 +1,12 @@
-﻿using System;
-using Scripts.PlayerScripts;
+﻿using Scripts.PlayerScripts;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
-using IJunior.TypedScenes;
+using Unity.VisualScripting;
 
 namespace Scripts.UI
 {
-    public class EndGame : MonoBehaviour
+    public class GameOver : MonoBehaviour
     {
         [SerializeField] private Button _restart;
         [SerializeField] private Button _exit;
@@ -18,6 +16,8 @@ namespace Scripts.UI
         [SerializeField] private float _time = 10f;
         [SerializeField] private Curtain _curtain;
 
+        private readonly float _maxAlpha = 1;
+        
         private Coroutine _coroutine;
         private Tweener _tweener;
 
@@ -37,10 +37,20 @@ namespace Scripts.UI
             _player.Dying -= OnDying;
         }
 
+        private void OnDestroy()
+        {
+            _tweener.Kill();
+        }
+
+        public void OnExitGame()
+        {
+            ExitGame();
+        }
+
         private void OnDying()
         {
             _panel.SetActive(true);
-            _tweener = _background.DOFade(1, _time);
+            _tweener = _background.DOFade(_maxAlpha, _time);
         }
 
         private void ExitGame()
@@ -61,11 +71,6 @@ namespace Scripts.UI
         {
             _curtain.AnimationOver -= () => LoadNextScene(loadScene);
             loadScene();
-        }
-
-        private void OnDestroy()
-        {
-            _tweener.Kill();
         }
     }
 }

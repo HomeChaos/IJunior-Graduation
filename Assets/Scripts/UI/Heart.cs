@@ -12,16 +12,14 @@ namespace Scripts.UI
 
         private HeartState _state = HeartState.Full;
 
-        public HeartState State => _state;
+        private void Start()
+        {
+            ChangeSprite(_state);
+        }
 
         public void ChangeState(HeartState state)
         {
             _state = state;
-            ChangeSprite(_state);
-        }
-
-        private void Start()
-        {
             ChangeSprite(_state);
         }
 
@@ -40,12 +38,5 @@ namespace Scripts.UI
                     break;
             }
         }
-    }
-
-    public enum HeartState
-    {
-        Full = 0,
-        Half = 2,
-        Empty = 1,
     }
 }

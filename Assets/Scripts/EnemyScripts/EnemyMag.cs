@@ -8,20 +8,19 @@ namespace Scripts.EnemyScripts
     public class EnemyMag : EnemyBase
     {
         [SerializeField] private Bullet _bullet;
-        [SerializeField] private GameObject _container;
         [SerializeField] private float _minDistance = 4f;
         [SerializeField] private float _maxDistance = 10f;
         [SerializeField] private GameObject _shootPoint;
-        [SerializeField] private EnemyRotationWeapon _weapon;
+        [SerializeField] private EnemyWeapon _weapon;
 
-        private readonly int AttackKey = Animator.StringToHash("Attack");
-        private readonly float _delayBeforeAttack = 0.4f;
+        private readonly int _attackKey = Animator.StringToHash("Attack");
 
         private EnemyBulletPool _pool;
 
         public override void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
         {
             base.Init(target, specifications, newPosition);
+            
             _weapon.Init(target);
 
             if (_pool == null)
@@ -31,26 +30,13 @@ namespace Scripts.EnemyScripts
         protected override IEnumerator GoToTarget()
         {
             var waitForEndOfFrame = new WaitForEndOfFrame();
-            bool isCorrectDistance = false;
 
-            while (isCorrectDistance == false)
+            while (IsCorrectDistance() == false)
             {
-                var currentDistance = Vector3.Distance(Target.position, transform.position);
-
-                if (currentDistance < _minDistance || currentDistance > _maxDistance)
-                {
-                    Vector3 direction = currentDistance > _maxDistance
-                        ? Target.position - transform.position
-                        : transform.position - Target.position;
-
-                    UpdateSpriteRender(direction);
-                    transform.Translate(direction.normalized * Specification.Speed * Time.deltaTime);
-                    yield return waitForEndOfFrame;
-                }
-                else
-                {
-                    isCorrectDistance = true;
-                }
+                Vector3 direction = GetCorrectDirection();
+                UpdateSpriteRender(direction);
+                transform.Translate(direction.normalized * Specification.Speed * Time.deltaTime);
+                yield return waitForEndOfFrame;
             }
 
             StartState(AttackTarget());
@@ -60,21 +46,29 @@ namespace Scripts.EnemyScripts
         {
             LookToTarget();
             var waitForSeconds = new WaitForSeconds(Specification.SpeedDamage);
-            var currentDistance = Vector3.Distance(Target.position, transform.position);
 
-            yield return new WaitForSeconds(_delayBeforeAttack);
-            
-            while (_minDistance < currentDistance && currentDistance < _maxDistance)
+            while (IsCorrectDistance())
             {
                 LookToTarget();
                 _pool.Shoot(_bullet, _shootPoint.transform, Specification.Damage);
-                Animator.SetTrigger(AttackKey);
+                Animator.SetTrigger(_attackKey);
 
                 yield return waitForSeconds;
-                currentDistance = Vector3.Distance(Target.position, transform.position);
             }
             
             StartState(GoToTarget());
+        }
+
+        private bool IsCorrectDistance()
+        {
+            var currentDistance = Vector3.Distance(Target.position, transform.position);
+            return _minDistance < currentDistance && currentDistance < _maxDistance;
+        }
+
+        private Vector3 GetCorrectDirection()
+        {
+            float currentDistance = Vector3.Distance(Target.position, transform.position);
+            return currentDistance > _maxDistance ? Target.position - transform.position : transform.position - Target.position;
         }
 
         private void LookToTarget()

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Scripts.Components;
 using Scripts.Settings;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace Scripts.EnemyScripts
         [SerializeField] private TypesOfEnemies _enemyType;
         [SerializeField] private AudioClip _burnSound;
 
-        private readonly int BurnKey = Animator.StringToHash("Burn");
+        private readonly int _burnKey = Animator.StringToHash("Burn");
         
         private Transform _target;
         private IEnumerator _currentState;
@@ -34,6 +33,20 @@ namespace Scripts.EnemyScripts
         protected Specification Specification => _specification;
         protected Animator Animator => _animator;
 
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _audioSource = GetComponent<AudioSource>();
+            _soundSettings = SoundUtils.FindSoundSettings();
+        }
+
+        private void Start()
+        {
+            float volumeCorrection = 0.5f;
+            _audioSource.volume = _soundSettings.SfxVolume / volumeCorrection;
+        }
+
         public virtual void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
         {
             if (_specification == null)
@@ -43,31 +56,29 @@ namespace Scripts.EnemyScripts
             _target = target;
             transform.position = newPosition;
         }
-        
+
         public void TakeDamage(int damage)
         {
+            if (damage < 0)
+            {
+                throw new System.ArgumentException("Damage cannot be negative");
+            }
+
             _health -= damage;
             
             if (_health <= 0)
             {
                 OnDie?.Invoke(this, _specification.Reward);
                 StartState(Stop());
-                _animator.SetTrigger(BurnKey);
+                
+                _animator.SetTrigger(_burnKey);
                 _audioSource.PlayOneShot(_burnSound);
             }
         }
 
         protected abstract IEnumerator GoToTarget();
-        
+
         protected abstract IEnumerator AttackTarget();
-
-        protected virtual IEnumerator Stop()
-        {
-            if (_currentState != null) 
-                StopCoroutine(_currentState);
-
-            yield return null;
-        }
 
         protected void UpdateSpriteRender(Vector3 direction)
         {
@@ -90,21 +101,15 @@ namespace Scripts.EnemyScripts
             StartCoroutine(coroutine);
         }
 
-        private void Awake()
+        private IEnumerator Stop()
         {
-            _animator = GetComponent<Animator>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _audioSource = GetComponent<AudioSource>();
-            _soundSettings = SoundUtils.FindSoundSettings();
+            if (_currentState != null) 
+                StopCoroutine(_currentState);
+
+            yield return null;
         }
 
-        private void Start()
-        {
-            float volumeCorrection = 0.5f;
-            _audioSource.volume = _soundSettings.SfxVolume / volumeCorrection;
-        }
-
-        protected void StartEnemy()
+        private void StartEnemy()
         {
             StartState(GoToTarget());
         }

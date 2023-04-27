@@ -2,18 +2,13 @@
 
 namespace Scripts.Weapon.EnemyWeapon
 {
-    public class EnemyRotationWeapon : MonoBehaviour
+    public class EnemyWeapon : MonoBehaviour
     {
         private readonly int LeftSide = -1;
         private readonly int RightSide = 1;
+        private readonly Vector2 _initialVector = Vector2.up;
 
         private Transform _target;
-        private Vector2 _initialVector = Vector2.up;
-
-        public void Init(Transform target)
-        {
-            _target = target;
-        }
 
         private void Update()
         {
@@ -22,6 +17,11 @@ namespace Scripts.Weapon.EnemyWeapon
                 float z = GetCorrectRotationZ();
                 transform.rotation = Quaternion.Euler(0, 0, z);
             }
+        }
+
+        public void Init(Transform target)
+        {
+            _target = target;
         }
 
         private float GetCorrectRotationZ()

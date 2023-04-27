@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9128091310074806560}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.904197, y: 0.40450603, z: 3.252094}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,12 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab7496eb7a9485eb342e7d39be5e7a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _music:
+  _musicTracks:
   - {fileID: 8300000, guid: 0c6872eda4d620f4295f4b08673ca8dc, type: 3}
   - {fileID: 8300000, guid: 213a6ed292473774694d5945bc8aae58, type: 3}
   - {fileID: 8300000, guid: 1d215c9cccf70ba4da0d8665c170084f, type: 3}
   - {fileID: 8300000, guid: d82947f4f670b964196fb994abf783ca, type: 3}
-  - {fileID: 8300000, guid: d98e091e1eb60d1428b6d060d7d210de, type: 3}
   - {fileID: 8300000, guid: f59039fba9f2e834098b573e407b1c4c, type: 3}
   - {fileID: 8300000, guid: 596f67e6d07042f4cbfe2d39e018ec02, type: 3}
   - {fileID: 8300000, guid: eed2e64661f5da7449da7d58b8feb64c, type: 3}

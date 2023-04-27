@@ -4,14 +4,13 @@ namespace Scripts
 {
     public class MouseRotator : MonoBehaviour
     {
-        private readonly int LeftSide = -1;
-        private readonly int RightSide = 1;
+        private const int LeftSide = -1;
+        private const int RightSide = 1;
         
         private Vector2 _initialVector;
         private Camera _camera;
         
         protected Vector2 InitialVector => _initialVector;
-        protected Vector2 MousePosition { get; set; }
 
         protected virtual void Start()
         {

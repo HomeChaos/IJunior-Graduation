@@ -2,7 +2,7 @@
 
 namespace Scripts.Settings
 {
-    public class SoundUtils
+    public static class SoundUtils
     {
         private static SoundSettings _soundSettings;
         

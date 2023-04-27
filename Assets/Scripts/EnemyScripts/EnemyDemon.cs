@@ -8,7 +8,7 @@ namespace Scripts.EnemyScripts
     {
         [SerializeField] private float _minDistanceForTarget = 1f;
         
-        private readonly int AttackKey = Animator.StringToHash("Attack");
+        private readonly int _attackKey = Animator.StringToHash("Attack");
         private readonly float _delayBeforeAttack = 0.2f;        
         
         protected override IEnumerator GoToTarget()
@@ -17,7 +17,7 @@ namespace Scripts.EnemyScripts
 
             while (IsTargetFarAway())
             {
-                var direction = Target.position - transform.position;
+                Vector3 direction = Target.position - transform.position;
                 UpdateSpriteRender(direction);
                 transform.Translate(direction.normalized * Specification.Speed * Time.deltaTime);
                 yield return waitForEndOfFrame;
@@ -28,17 +28,20 @@ namespace Scripts.EnemyScripts
         
         protected override IEnumerator AttackTarget()
         {
-            var waitForSeconds = new WaitForSeconds(Specification.SpeedDamage);
-            IDamageable playerHealth = Target.GetComponent<IDamageable>();
+            var waitAfterAttack = new WaitForSeconds(Specification.SpeedDamage);
+            IDamageable targetHealth = Target.GetComponent<IDamageable>();
+
+            if (targetHealth == null)
+                throw new System.NullReferenceException("The target must have an IDamageable interface");
             
             yield return new WaitForSeconds(_delayBeforeAttack);
             
             while (IsTargetFarAway() == false)
             {
-                playerHealth.TakeDamage(Specification.Damage);
-                Animator.SetTrigger(AttackKey);
+                targetHealth.TakeDamage(Specification.Damage);
+                Animator.SetTrigger(_attackKey);
                 
-                yield return waitForSeconds;
+                yield return waitAfterAttack;
             }
             
             StartState(GoToTarget());

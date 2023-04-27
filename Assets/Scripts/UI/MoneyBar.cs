@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Scripts.PlayerScripts;
 using TMPro;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace Scripts.UI
     public class MoneyBar : MonoBehaviour
     {
         [SerializeField] private TMP_Text _text;
-        [SerializeField] private Wallet wallet;
+        [SerializeField] private Wallet _wallet;
         [SerializeField] private Image _coin;
         [SerializeField] private float _timeOfAnimation = 0.5f;
         [SerializeField] private Sprite[] _coinSprites;
@@ -19,12 +18,12 @@ namespace Scripts.UI
         
         private void OnEnable()
         {
-            wallet.OnMoneyChange += OnMoneyChange;
+            _wallet.OnMoneyChange += OnMoneyChange;
         }
 
         private void OnDisable()
         {
-            wallet.OnMoneyChange -= OnMoneyChange;
+            _wallet.OnMoneyChange -= OnMoneyChange;
         }
 
         private void OnMoneyChange(int currentMoney, int reward)

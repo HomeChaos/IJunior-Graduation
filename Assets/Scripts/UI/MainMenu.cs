@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections;
-using Scripts.Settings;
-using Unity.VisualScripting;
+﻿using Scripts.Settings;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Scripts.UI
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private Button _start;
-        [SerializeField] private Button _shop;
-        [SerializeField] private Button _settings;
-        [SerializeField] private Button _exit;
+        [SerializeField] private Button _startButton;
+        [SerializeField] private Button _shopButton;
+        [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _exitButton;
         [SerializeField] private SettingsPanel _settingsPanel;
         [SerializeField] private Curtain _curtain;
         
@@ -21,18 +17,18 @@ namespace Scripts.UI
         
         private void OnEnable()
         {
-            _start.onClick.AddListener(OnStartGame);
-            _shop.onClick.AddListener(OnShop);
-            _settings.onClick.AddListener(OnSettings);
-            _exit.onClick.AddListener(OnExit);
+            _startButton.onClick.AddListener(OnStartGame);
+            _shopButton.onClick.AddListener(OnShop);
+            _settingsButton.onClick.AddListener(OnSettings);
+            _exitButton.onClick.AddListener(OnExit);
         }
 
         private void OnDisable()
         {
-            _start.onClick.RemoveListener(OnStartGame);
-            _shop.onClick.RemoveListener(OnShop);
-            _settings.onClick.RemoveListener(OnSettings);
-            _exit.onClick.RemoveListener(OnExit);
+            _startButton.onClick.RemoveListener(OnStartGame);
+            _shopButton.onClick.RemoveListener(OnShop);
+            _settingsButton.onClick.RemoveListener(OnSettings);
+            _exitButton.onClick.RemoveListener(OnExit);
         }
 
         private void OnStartGame()
@@ -67,7 +63,5 @@ namespace Scripts.UI
             _curtain.AnimationOver -= () => LoadNextScene(loadScene);
             loadScene();
         }
-
-
     }
 }

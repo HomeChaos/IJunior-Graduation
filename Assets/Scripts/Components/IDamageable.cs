@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine.Events;
-
-namespace Scripts.Components
+﻿namespace Scripts.Components
 {
     public interface IDamageable
     {

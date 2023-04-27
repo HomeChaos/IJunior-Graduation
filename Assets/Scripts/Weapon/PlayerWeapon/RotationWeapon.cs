@@ -12,8 +12,8 @@ namespace Scripts.Weapon.PlayerWeapon
 
         private float GetCorrectRotationZ()
         {
-            MousePosition = GetMousePosition();
-            float angle = Vector3.Angle(InitialVector, MousePosition) * GetCurrentSide();
+            Vector2 mousePosition = GetMousePosition();
+            float angle = Vector3.Angle(InitialVector, mousePosition) * GetCurrentSide();
             return angle;
         }
     }

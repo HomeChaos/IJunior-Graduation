@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 namespace Scripts.Components
@@ -7,27 +6,28 @@ namespace Scripts.Components
     public class FollowToTarget : MonoBehaviour
     {
         [SerializeField] private Transform _target;
-        [SerializeField] private float _delay;
+        [SerializeField] private float _duration = 0.5f;
         [SerializeField] private float _offset = -10f;
 
+        private Vector3 _targetPosition;
         private Vector3 _targetLastPosition;
         private Tweener _tweener;
 
         private void Start()
         {
-            var targetPos = GetTargetPositionWithOffset(_target.position, _offset);
-            _tweener = transform.DOMove(targetPos, _delay).SetAutoKill(false);
-            _targetLastPosition = targetPos;
+            _targetPosition = GetTargetPositionWithOffset(_target.position, _offset);
+            _tweener = transform.DOMove(_targetPosition, _duration).SetAutoKill(false);
+            _targetLastPosition = _targetPosition;
         }
 
         private void LateUpdate()
         {
-            var targetPos = GetTargetPositionWithOffset(_target.position, _offset);
+            _targetPosition = GetTargetPositionWithOffset(_target.position, _offset);
             
-            if (_targetLastPosition.x != _target.position.x || _targetLastPosition.y != _target.position.y)
+            if ((_targetLastPosition.x != _target.position.x) || (_targetLastPosition.y != _target.position.y))
             {
-                _tweener.ChangeEndValue(targetPos, true).Restart();
-                _targetLastPosition = targetPos;
+                _tweener.ChangeEndValue(_targetPosition, true).Restart();
+                _targetLastPosition = _targetPosition;
             }
         }
 

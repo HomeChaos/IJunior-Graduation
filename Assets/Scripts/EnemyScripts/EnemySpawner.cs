@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripts.PlayerScripts;
-using Scripts.Weapon.EnemyWeapon;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,36 +13,40 @@ namespace Scripts.EnemyScripts
         [SerializeField] private GameObject _spawnZone;
         [SerializeField] private EnemySpecifications _specifications;
         [SerializeField] private WaveSettings _wavesSettings;
-        [SerializeField] private int _maxCountOfEnemy = 25;
+        [SerializeField] private int _maxCountOfEnemy = 50;
         [SerializeField] private Transform _target;
 
         private readonly float _delayBeforeSpawning = 0.3f;
         
         private List<EnemyBase> _pool;
+        private Wallet _targetWallet;
         private int _currentWaveNumber = 0;
         private int _currentSpawned;
 
-        private float minPositionX;
-        private float maxPositionX;
-        private float minPositionY;
-        private float maxPositionY;
-
+        private float _minPositionX;
+        private float _maxPositionX;
+        private float _minPositionY;
+        private float _maxPositionY;
 
         private void Start()
         {
+            _targetWallet = _target.GetComponent<Wallet>();
+            
+            if (_targetWallet == null)
+                throw new System.NullReferenceException("The target must have a Wallet component");
+            
             StartSpawn();
         }
-
-        [ContextMenu("! StartSpawn")]
+        
         private void StartSpawn()
         {
             _pool = new List<EnemyBase>();
 
-            var spawnZoneSize = _spawnZone.transform.localScale;
-            minPositionX = -spawnZoneSize.x / 2f;
-            maxPositionX = spawnZoneSize.x / 2f;
-            minPositionY = -spawnZoneSize.y / 2;
-            maxPositionY = spawnZoneSize.y / 2f;
+            Vector3 spawnZoneSize = _spawnZone.transform.localScale;
+            _minPositionX = -spawnZoneSize.x / 2f;
+            _maxPositionX = spawnZoneSize.x / 2f;
+            _minPositionY = -spawnZoneSize.y / 2f;
+            _maxPositionY = spawnZoneSize.y / 2f;
 
             StartCoroutine(Spawn());
         }
@@ -58,7 +60,7 @@ namespace Scripts.EnemyScripts
             {
                 var waitForNextPack = new WaitForSeconds(_wavesSettings.Waves[_currentWaveNumber].DelayBetweenPackets);
                 
-                foreach (var pack in _wavesSettings.Waves[_currentWaveNumber].Packs)
+                foreach (Pack pack in _wavesSettings.Waves[_currentWaveNumber].Packs)
                 {
                     for (int i = 0; i < pack.Count; i++)
                     {
@@ -73,12 +75,7 @@ namespace Scripts.EnemyScripts
                     yield return waitForNextPack;
                 }
 
-                _currentWaveNumber++;
-                
-                if (_currentWaveNumber >= _wavesSettings.Waves.Count)
-                {
-                    _currentWaveNumber--;
-                }
+                _currentWaveNumber = Mathf.Min(_wavesSettings.Waves.Count - 1, _currentWaveNumber + 1);
             }
         }
 
@@ -86,8 +83,8 @@ namespace Scripts.EnemyScripts
         {
             var typeOfNewEnemy = template.GetComponent<EnemyBase>().EnemyType;
 
-            var newPositionX = Random.Range(minPositionX, maxPositionX);
-            var newPositionY = Random.Range(minPositionY, maxPositionY);
+            float newPositionX = Random.Range(_minPositionX, _maxPositionX);
+            float newPositionY = Random.Range(_minPositionY, _maxPositionY);
 
             EnemyBase enemyForSpawn;
             
@@ -105,16 +102,16 @@ namespace Scripts.EnemyScripts
             enemyForSpawn.OnDie += OnEnemyDying;
         }
 
-        private bool TryGetEnemy(TypesOfEnemies enemyEnemyType, out EnemyBase enemyDemon)
+        private bool TryGetEnemy(TypesOfEnemies enemyType, out EnemyBase enemy)
         { 
-            enemyDemon = _pool.FirstOrDefault(x => x.EnemyType == enemyEnemyType && x.gameObject.activeSelf == false);
-            return enemyDemon != null;
+            enemy = _pool.FirstOrDefault(x => x.EnemyType == enemyType && x.gameObject.activeSelf == false);
+            return enemy != null;
         }
 
-        private void OnEnemyDying(EnemyBase enemyDemon, int reward)
+        private void OnEnemyDying(EnemyBase enemy, int reward)
         {
-            enemyDemon.OnDie -= OnEnemyDying;
-            _target.gameObject.GetComponent<Player>().Wallet.AddMoney(reward);
+            enemy.OnDie -= OnEnemyDying;
+            _targetWallet.AddMoney(reward);
             _currentSpawned--;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripts.Settings;
@@ -22,25 +21,6 @@ namespace Scripts.Weapon.PlayerWeapon
         private AudioSource _source;
         private SoundSettings _soundSettings;
 
-        public void StartShoot()
-        {
-            if (_currentCoroutine != null)
-                StopCoroutine(_currentCoroutine);
-            
-            _currentCoroutine = StartCoroutine(Shoot());
-        }
-
-        public void StopShoot()
-        {
-            if (_currentCoroutine != null)
-                StopCoroutine(_currentCoroutine);
-        }
-
-        public void Init(float rate)
-        {
-            _rateOfFire = rate;
-        }
-
         private void Awake()
         {
             _bullets = new List<Bullet>();
@@ -51,6 +31,23 @@ namespace Scripts.Weapon.PlayerWeapon
         private void Start()
         {
             _source.volume = _soundSettings.SfxVolume;
+        }
+
+        public void Init(float rate)
+        {
+            _rateOfFire = rate;
+        }
+
+        public void StartShoot()
+        {
+            StopShoot();
+            _currentCoroutine = StartCoroutine(Shoot());
+        }
+
+        public void StopShoot()
+        {
+            if (_currentCoroutine != null)
+                StopCoroutine(_currentCoroutine);
         }
 
         private IEnumerator Shoot()

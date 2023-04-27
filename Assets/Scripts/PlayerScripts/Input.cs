@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Scripts.PlayerScripts
@@ -35,7 +34,7 @@ namespace Scripts.PlayerScripts
 
         private void OnStartShoot(InputAction.CallbackContext context)
         {
-            _player.SetShooting(isShooting:true);
+            _player.SetShooting(isShooting: true);
         }
 
         private void OnEndShoot(InputAction.CallbackContext context)

@@ -11,8 +11,8 @@ namespace Scripts.EnemyScripts
 
         public Specification GetSpecification(TypesOfEnemies enemies)
         {
-            var a = _specifications.FirstOrDefault(x => x.Type == enemies);
-            return a;
+            var specification = _specifications.FirstOrDefault(x => x.Type == enemies);
+            return specification;
         }
     }
 

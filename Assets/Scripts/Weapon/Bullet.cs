@@ -1,5 +1,4 @@
 ﻿using System;
-using Scripts.EnemyScripts;
 using UnityEngine;
 
 namespace Scripts.Weapon
@@ -16,17 +15,23 @@ namespace Scripts.Weapon
 
         protected int Damage => _damage;
 
-        public void SetNewDamage(int newDamage)
-        {
-            if (newDamage < 0)
-                throw new ArgumentException(nameof(SetNewDamage));
-            _damage = newDamage;
-        }
-        
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _rigidbody2D.gravityScale = 0;
+        }
+
+        private void Update()
+        {
+            transform.Translate(Vector2.right * _speed * Time.deltaTime);
+        }
+
+        public void SetNewDamage(int newDamage)
+        {
+            if (newDamage < 0)
+                throw new ArgumentException(nameof(SetNewDamage));
+            
+            _damage = newDamage;
         }
 
         public void Init(Vector3 transformPosition, Quaternion transformRotation)
@@ -34,11 +39,6 @@ namespace Scripts.Weapon
             transform.position = transformPosition;
             transform.rotation = transformRotation;
             transform.Rotate(0, 0, _correctionZAngle, Space.Self);
-        }
-
-        private void Update()
-        {
-            transform.Translate(Vector2.right * _speed * Time.deltaTime);
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D other)

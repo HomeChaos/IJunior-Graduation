@@ -10,6 +10,8 @@ namespace Scripts.UI
         [SerializeField] private GameObject _heartTemplate;
         [SerializeField] private GameObject _conteiner;
 
+        private readonly int _healthMultiplicity = 3;
+        
         private List<Heart> _hearts;
 
         private void Start()
@@ -35,16 +37,12 @@ namespace Scripts.UI
                 return;
             }
 
-            int requiredNumberOfHearts = health / 3 + (health % 3 == 0 ? 0 : 1);
+            int requiredNumberOfHearts = health / _healthMultiplicity + (health % _healthMultiplicity == 0 ? 0 : 1);
             
             if (requiredNumberOfHearts < _hearts.Count)
-            {
                 RemoveHearts(requiredNumberOfHearts);
-            }
             else if (requiredNumberOfHearts > _hearts.Count)
-            {
                 AddNewHeart(requiredNumberOfHearts);
-            }
 
             SetValueOfLastHeart(health);
         }
@@ -58,7 +56,7 @@ namespace Scripts.UI
         {
             while (_hearts.Count != currentValue)
             {
-                var heart = _hearts[^1];
+                Heart heart = _hearts[^1];
                 _hearts.Remove(heart);
                 Destroy(heart.gameObject);
             }
@@ -66,16 +64,16 @@ namespace Scripts.UI
 
         private void AddNewHeart(int currentValue)
         {
-            while (currentValue != _hearts.Count)
+            while (_hearts.Count < currentValue)
             {
-                var newHeart = Instantiate(_heartTemplate, _conteiner.transform).GetComponent<Heart>();
+                Heart newHeart = Instantiate(_heartTemplate, _conteiner.transform).GetComponent<Heart>();
                 _hearts.Add(newHeart);
             }
         }
 
         private void SetValueOfLastHeart(int health)
         {
-            int valueOfLastHeart = health % 3;
+            int valueOfLastHeart = health % _healthMultiplicity;
             _hearts[^1].ChangeState((HeartState)valueOfLastHeart);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Scripts.PlayerScripts;
+﻿using Scripts.Components;
+using Scripts.PlayerScripts;
 using UnityEngine;
 
 namespace Scripts.Weapon.EnemyWeapon
@@ -10,7 +11,14 @@ namespace Scripts.Weapon.EnemyWeapon
         {
             if (other.TryGetComponent(out Player player))
             {
-                player.TakeDamage(Damage);
+                IDamageable damageComponent = player;
+                
+                if (damageComponent == null)
+                {
+                    throw new System.NullReferenceException("The player must have an IDamageable interface");
+                }
+                
+                damageComponent.TakeDamage(Damage);
                 gameObject.SetActive(false);
             }
             else if (other.GetComponent<Wall>())

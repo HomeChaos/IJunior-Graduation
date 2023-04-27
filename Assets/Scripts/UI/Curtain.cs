@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 namespace Scripts.UI
@@ -7,20 +6,20 @@ namespace Scripts.UI
     [RequireComponent(typeof(Animator))]
     public class Curtain : MonoBehaviour
     {
-        private readonly int ShowKey = Animator.StringToHash("Show");
+        private readonly int _showKey = Animator.StringToHash("Show");
         
         public event UnityAction AnimationOver;
 
         private Animator _animator;
 
-        public void ShowCurtain()
-        {
-            _animator.SetTrigger(ShowKey);
-        }
-        
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+        }
+
+        public void ShowCurtain()
+        {
+            _animator.SetTrigger(_showKey);
         }
 
         private void EndOfAnimation()

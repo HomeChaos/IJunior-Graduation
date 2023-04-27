@@ -1,4 +1,5 @@
-﻿using Scripts.Shop;
+﻿using System.Collections.Generic;
+using Scripts.Shop;
 using UnityEngine;
 
 namespace Scripts.UI
@@ -6,23 +7,23 @@ namespace Scripts.UI
     [CreateAssetMenu(fileName = "ShopItems", menuName = "Shop", order = 52)]
     public class ShopItems : ScriptableObject
     {
-        [SerializeField] private ShopItem[] _assortment;
+        [SerializeField] private List<ShopItem> _assortment;
 
-        public ShopItem[] Assortment => _assortment;
+        public IReadOnlyList<ShopItem> Assortment => _assortment;
     }
 
     [System.Serializable]
     public class ShopItem
     {
         [SerializeField] private ItemTypes _itemTypes;
-        [SerializeField] private Pricing[] _pricings;
+        [SerializeField] private List<PriceTag> _pricуTags;
 
         public ItemTypes ItemTypes => _itemTypes;
-        public Pricing[] Pricings => _pricings;
+        public IReadOnlyList<PriceTag> PricуTags => _pricуTags;
     }
 
     [System.Serializable]
-    public class Pricing
+    public class PriceTag
     {
         [SerializeField] private float _value;
         [SerializeField] private int _price;

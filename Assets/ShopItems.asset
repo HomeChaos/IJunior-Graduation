@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _assortment:
   - _itemTypes: 0
-    _pricings:
+    "_pric\u0443Tags":
     - _value: 3
       _price: 0
     - _value: 6
@@ -30,9 +30,9 @@ MonoBehaviour:
     - _value: 21
       _price: 35000
   - _itemTypes: 1
-    _pricings:
+    "_pric\u0443Tags":
     - _value: 0.35
-      _price: 1000
+      _price: 0
     - _value: 0.3
       _price: 3000
     - _value: 0.25

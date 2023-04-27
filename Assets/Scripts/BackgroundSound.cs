@@ -1,5 +1,4 @@
-﻿using System;
-using Scripts.Settings;
+﻿using Scripts.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,7 +7,7 @@ namespace Scripts
     [RequireComponent(typeof(AudioSource))]
     public class BackgroundSound : MonoBehaviour
     {
-        [SerializeField] private AudioClip[] _music;
+        [SerializeField] private AudioClip[] _musicTracks;
         
         private AudioSource _audioSource;
         private SoundSettings _soundSettings;
@@ -21,23 +20,27 @@ namespace Scripts
             _audioSource.playOnAwake = false;
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            int randomIndex = Random.Range(0, _music.Length);
-            _audioSource.clip = _music[randomIndex];
-            _audioSource.volume = _soundSettings.MusicVolume;
-            _soundSettings.OnVolumeChanged += OnVolumeChange;
-            _audioSource.Play();
-        }
-
-        private void OnVolumeChange(float arg0, float arg1)
-        {
-            _audioSource.volume = _soundSettings.MusicVolume;
+            _soundSettings.OnVolumeChanged += OnVolumeChanged;
         }
 
         private void OnDisable()
         {
-            _soundSettings.OnVolumeChanged -= OnVolumeChange;
+            _soundSettings.OnVolumeChanged -= OnVolumeChanged;
+        }
+
+        private void Start()
+        {
+            int randomIndex = Random.Range(0, _musicTracks.Length);
+            _audioSource.clip = _musicTracks[randomIndex];
+            _audioSource.volume = _soundSettings.MusicVolume;
+            _audioSource.Play();
+        }
+
+        private void OnVolumeChanged()
+        {
+            _audioSource.volume = _soundSettings.MusicVolume;
         }
     }
 }
