@@ -31,7 +31,7 @@ namespace Scripts.PlayerScripts
         {
             _animator = GetComponent<Animator>();
             _audioSource = GetComponent<AudioSource>();
-            _soundSettings = SoundUtils.FindSoundSettings();
+            _soundSettings = SoundSettings.Instance;
         }
 
         private void Start()

@@ -38,7 +38,7 @@ namespace Scripts.EnemyScripts
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _audioSource = GetComponent<AudioSource>();
-            _soundSettings = SoundUtils.FindSoundSettings();
+            _soundSettings = SoundSettings.Instance;
         }
 
         private void Start()

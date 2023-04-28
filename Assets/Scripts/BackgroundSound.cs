@@ -14,7 +14,7 @@ namespace Scripts
 
         private void Awake()
         {
-            _soundSettings = SoundUtils.FindSoundSettings();
+            _soundSettings = SoundSettings.Instance;
             _audioSource = GetComponent<AudioSource>();
             _audioSource.priority = 0;
             _audioSource.playOnAwake = false;

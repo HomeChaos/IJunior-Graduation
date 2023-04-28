@@ -6,12 +6,15 @@ namespace Scripts.Weapon
     [RequireComponent(typeof(Rigidbody2D))]
     public class Bullet : MonoBehaviour
     {
+        [SerializeField] private BulletOwner _owner;
         [SerializeField] private float _speed;
-        [SerializeField] private int _damage = 1;
 
         private Rigidbody2D _rigidbody2D;
         private Vector2 _direction;
         private float _correctionZAngle = 90;
+        private int _damage = 1;
+
+        public BulletOwner Owner => _owner;
 
         protected int Damage => _damage;
 

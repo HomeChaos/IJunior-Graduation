@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe11943acfcf4df28650ec664224f661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _owner: 1
   _speed: 10
   _damage: 1
 --- !u!58 &7600747885644529060

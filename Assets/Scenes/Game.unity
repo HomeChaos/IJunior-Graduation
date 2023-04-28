@@ -35618,6 +35618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311788e2c41743ef87ef005eb8a2182d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _container: {fileID: 1709299829}
 --- !u!4 &1774366559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7142161480681279852, guid: a107aeb097028664593c297ebcbd011b, type: 3}
@@ -40949,6 +40950,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 433032249957309403, guid: ace628bb6122bf743953dc9250b4f91a, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 433032249957309407, guid: ace628bb6122bf743953dc9250b4f91a, type: 3}
+      propertyPath: _bullet
+      value: 
+      objectReference: {fileID: -2503021231771204188, guid: c73c185eb1797a94599653cee401b354, type: 3}
+    - target: {fileID: 433032249957309407, guid: ace628bb6122bf743953dc9250b4f91a, type: 3}
+      propertyPath: _damage
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 433032249957309407, guid: ace628bb6122bf743953dc9250b4f91a, type: 3}

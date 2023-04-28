@@ -5,6 +5,8 @@ namespace Scripts.Settings
 {
     public class SoundSettings : MonoBehaviour
     {
+        public static SoundSettings Instance { get; private set; }
+        
         private float _musicVolume;
         private float _sfxVolume;
         
@@ -12,6 +14,12 @@ namespace Scripts.Settings
 
         public float MusicVolume => _musicVolume;
         public float SfxVolume => _sfxVolume;
+
+        private void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+        }
 
         public void ChangeValue(float music, float sfx)
         {

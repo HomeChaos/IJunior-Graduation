@@ -22,9 +22,7 @@ namespace Scripts.EnemyScripts
             base.Init(target, specifications, newPosition);
             
             _weapon.Init(target);
-
-            if (_pool == null)
-                _pool = FindObjectOfType<EnemyBulletPool>();
+            _pool = EnemyBulletPool.Instance;
         }
 
         protected override IEnumerator GoToTarget()
