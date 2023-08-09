@@ -22,7 +22,6 @@ namespace Scripts.EnemyScripts
         private SpriteRenderer _spriteRenderer;
         private Specification _specification;
         private AudioSource _audioSource;
-        private SoundSettings _soundSettings;
         private int _health;
 
         public event UnityAction<EnemyBase, int> OnDie;
@@ -38,13 +37,12 @@ namespace Scripts.EnemyScripts
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _audioSource = GetComponent<AudioSource>();
-            _soundSettings = SoundSettings.Instance;
         }
 
         private void Start()
         {
             float volumeCorrection = 0.5f;
-            _audioSource.volume = _soundSettings.SfxVolume / volumeCorrection;
+            _audioSource.volume = SoundSettings.Instance.SfxVolume / volumeCorrection;
         }
 
         public virtual void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)

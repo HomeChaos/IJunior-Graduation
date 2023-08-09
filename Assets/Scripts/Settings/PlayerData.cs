@@ -10,7 +10,6 @@ namespace Scripts.Settings
         [SerializeField] private bool _isInitializeObjects = true;
         [SerializeField] private Player _player;
         [SerializeField] private Wallet _wallet;
-        [SerializeField] private SoundSettings _soundSettings;
         [SerializeField] private PlayerWeapon _playerWeapon;
         
         private const string SoundVolumeKey = "SoundVolume";
@@ -41,7 +40,7 @@ namespace Scripts.Settings
                 if (0 <= value && value <= 1)
                 {
                     _soundVolume = value;
-                    _soundSettings.ChangeValue(_soundVolume, _sfxVolume);
+                    SoundSettings.Instance.ChangeValue(_soundVolume, _sfxVolume);
                 }
                 else
                 {
@@ -58,7 +57,7 @@ namespace Scripts.Settings
                 if (0 <= value && value <= 1)
                 {
                     _sfxVolume = value;
-                    _soundSettings.ChangeValue(_soundVolume, _sfxVolume);
+                    SoundSettings.Instance.ChangeValue(_soundVolume, _sfxVolume);
                 }
                 else
                 {
@@ -110,7 +109,7 @@ namespace Scripts.Settings
             if (_isInitializeObjects)
                 InitializeObjects();
 
-            _soundSettings.ChangeValue(_soundVolume, _sfxVolume);
+            SoundSettings.Instance.ChangeValue(_soundVolume, _sfxVolume);
         }
 
         private void OnDisable()
@@ -135,6 +134,7 @@ namespace Scripts.Settings
             _playerWeapon.Init(_wandSpeed);    
             _wallet.Init(_money);
             _wallet.OnMoneyChange += OnMoneyChange;
+            //
         }
 
         private void SavePlayerData()

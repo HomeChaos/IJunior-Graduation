@@ -16,22 +16,12 @@ namespace Scripts.Weapon.PlayerWeapon
         private Coroutine _currentCoroutine;
         private float _timeUp;
         private AudioSource _source;
-        private SoundSettings _soundSettings;
-
-        private void Awake()
-        {
-            _soundSettings = SoundSettings.Instance;
-            _source = GetComponent<AudioSource>();
-        }
-
-        private void Start()
-        {
-            _source.volume = _soundSettings.SfxVolume;
-        }
 
         public void Init(float rate)
         {
             _rateOfFire = rate;
+            _source = GetComponent<AudioSource>();
+            _source.volume = SoundSettings.Instance.SfxVolume;
         }
 
         public void StartShoot()

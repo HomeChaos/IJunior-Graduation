@@ -21,7 +21,6 @@ namespace Scripts.PlayerScripts
         private Vector2 _currentDirection;
         private Animator _animator;
         private AudioSource _audioSource;
-        private SoundSettings _soundSettings;
         private int _health;
         
         public event UnityAction Dying;
@@ -31,13 +30,12 @@ namespace Scripts.PlayerScripts
         {
             _animator = GetComponent<Animator>();
             _audioSource = GetComponent<AudioSource>();
-            _soundSettings = SoundSettings.Instance;
         }
 
         private void Start()
         {
             OnHealthChange?.Invoke(_health);
-            _audioSource.volume = _soundSettings.SfxVolume;
+            _audioSource.volume = SoundSettings.Instance.SfxVolume;
         }
 
         private void FixedUpdate()

@@ -1,6 +1,5 @@
 ﻿using Scripts.Settings;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Scripts
 {
@@ -10,11 +9,9 @@ namespace Scripts
         [SerializeField] private AudioClip[] _musicTracks;
         
         private AudioSource _audioSource;
-        private SoundSettings _soundSettings;
 
         private void Awake()
         {
-            _soundSettings = SoundSettings.Instance;
             _audioSource = GetComponent<AudioSource>();
             _audioSource.priority = 0;
             _audioSource.playOnAwake = false;
@@ -22,25 +19,25 @@ namespace Scripts
 
         private void OnEnable()
         {
-            _soundSettings.OnVolumeChanged += OnVolumeChanged;
+            SoundSettings.Instance.OnVolumeChanged += OnVolumeChanged;
         }
 
         private void OnDisable()
         {
-            _soundSettings.OnVolumeChanged -= OnVolumeChanged;
+            SoundSettings.Instance.OnVolumeChanged -= OnVolumeChanged;
         }
 
         private void Start()
         {
             int randomIndex = Random.Range(0, _musicTracks.Length);
             _audioSource.clip = _musicTracks[randomIndex];
-            _audioSource.volume = _soundSettings.MusicVolume;
+            _audioSource.volume = SoundSettings.Instance.MusicVolume;
             _audioSource.Play();
         }
 
         private void OnVolumeChanged()
         {
-            _audioSource.volume = _soundSettings.MusicVolume;
+            _audioSource.volume = SoundSettings.Instance.MusicVolume;
         }
     }
 }
