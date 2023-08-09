@@ -105,11 +105,13 @@ namespace Scripts.Settings
         private void Awake()
         {
             LoadPlayerData();
+#if !UNITY_EDITOR
+            Cursor.visible = false;
+#endif
+            SoundSettings.Instance.ChangeValue(_soundVolume, _sfxVolume);
             
             if (_isInitializeObjects)
                 InitializeObjects();
-
-            SoundSettings.Instance.ChangeValue(_soundVolume, _sfxVolume);
         }
 
         private void OnDisable()
@@ -134,7 +136,6 @@ namespace Scripts.Settings
             _playerWeapon.Init(_wandSpeed);    
             _wallet.Init(_money);
             _wallet.OnMoneyChange += OnMoneyChange;
-            //
         }
 
         private void SavePlayerData()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scripts.PlayerScripts;
@@ -22,11 +23,14 @@ namespace Scripts.EnemyScripts
         private Wallet _targetWallet;
         private int _currentWaveNumber = 0;
         private int _currentSpawned;
+        private int _countOfKills = 0;
 
         private float _minPositionX;
         private float _maxPositionX;
         private float _minPositionY;
         private float _maxPositionY;
+
+        public event Action<int> OnKill;
 
         private void Start()
         {
@@ -111,6 +115,8 @@ namespace Scripts.EnemyScripts
         private void OnEnemyDying(EnemyBase enemy, int reward)
         {
             enemy.OnDie -= OnEnemyDying;
+            _countOfKills++;
+            OnKill?.Invoke(_countOfKills);
             _targetWallet.AddMoney(reward);
             _currentSpawned--;
         }

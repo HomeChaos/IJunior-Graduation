@@ -1,4 +1,6 @@
-﻿using Scripts.Settings;
+﻿using System;
+using Scripts.Settings;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,7 @@ namespace Scripts.UI
         [SerializeField] private Button _settingsButton;
         [SerializeField] private Button _exitButton;
         [SerializeField] private SettingsPanel _settingsPanel;
+        [SerializeField] private TMP_Text _version;
         [SerializeField] private Curtain _curtain;
         
         private delegate void LoadScene();
@@ -29,6 +32,11 @@ namespace Scripts.UI
             _shopButton.onClick.RemoveListener(OnShop);
             _settingsButton.onClick.RemoveListener(OnSettings);
             _exitButton.onClick.RemoveListener(OnExit);
+        }
+
+        private void Start()
+        {
+            _version.text = $"version: {Application.version}";
         }
 
         private void OnStartGame()
