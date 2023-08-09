@@ -24,5 +24,11 @@ namespace Scripts.PlayerScripts
             _money += value;
             OnMoneyChange?.Invoke(_money, value);
         }
+
+        [ContextMenu("[!] Add money")]
+        private void AddCheatMoney()
+        {
+            AddMoney(100_000);
+        }
     }
 }

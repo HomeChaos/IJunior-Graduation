@@ -16,6 +16,7 @@ namespace Scripts.EnemyScripts
         [SerializeField] private WaveSettings _wavesSettings;
         [SerializeField] private int _maxCountOfEnemy = 50;
         [SerializeField] private Transform _target;
+        [SerializeField] private EnemySoundsComponent _enemySounds;
 
         private readonly float _delayBeforeSpawning = 0.3f;
         
@@ -24,6 +25,7 @@ namespace Scripts.EnemyScripts
         private int _currentWaveNumber = 0;
         private int _currentSpawned;
         private int _countOfKills = 0;
+        private Coroutine _coroutine;
 
         private float _minPositionX;
         private float _maxPositionX;
@@ -35,11 +37,40 @@ namespace Scripts.EnemyScripts
         private void Start()
         {
             _targetWallet = _target.GetComponent<Wallet>();
+            _enemySounds.Init();
             
             if (_targetWallet == null)
                 throw new System.NullReferenceException("The target must have a Wallet component");
             
             StartSpawn();
+        }
+
+        public void FreezeEnemys()
+        {
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
+
+            _coroutine = null;
+            
+            foreach (var enemy in _pool)
+            {
+                if (enemy.gameObject.activeSelf)
+                    enemy.Freeze();
+            }
+        }
+
+        public void UnFreezeEnemys()
+        {
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
+
+            _coroutine = StartCoroutine(Spawn());
+            
+            foreach (var enemy in _pool)
+            {
+                if (enemy.gameObject.activeSelf)
+                    enemy.UnFreeze();
+            }
         }
         
         private void StartSpawn()
@@ -52,7 +83,7 @@ namespace Scripts.EnemyScripts
             _minPositionY = -spawnZoneSize.y / 2f;
             _maxPositionY = spawnZoneSize.y / 2f;
 
-            StartCoroutine(Spawn());
+            _coroutine = StartCoroutine(Spawn());
         }
 
         private IEnumerator Spawn()
@@ -102,7 +133,7 @@ namespace Scripts.EnemyScripts
                 _pool.Add(enemyForSpawn);
             }
             
-            enemyForSpawn.Init(_target, _specifications, new Vector2(newPositionX, newPositionY));
+            enemyForSpawn.Init(_target, _specifications, _enemySounds, new Vector2(newPositionX, newPositionY));
             enemyForSpawn.OnDie += OnEnemyDying;
         }
 

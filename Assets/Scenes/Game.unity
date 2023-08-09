@@ -35548,6 +35548,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 1712596514}
   _enemySpawner: {fileID: 4183590873258920327}
+  _skull: {fileID: 2016382897}
+  _timeOfAnimation: 0.05
+  _skillSprites:
+  - {fileID: 1826537658, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 214694797, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 1689323884, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 1624133228, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: -940742629, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: -940742629, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 1624133228, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 1689323884, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 214694797, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
+  - {fileID: 1826537658, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
 --- !u!224 &1459311099 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8101184417886175438, guid: 9ee6f23387240964d92f206a754bec7d, type: 3}
@@ -36339,14 +36352,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016382895}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1434217208}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.83838063, y: 0.172}
   m_AnchorMax: {x: 1, y: 0.81979996}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -36372,7 +36385,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a0adba3ad72f57f48b756c8bc9a22577, type: 3}
+  m_Sprite: {fileID: 1826537658, guid: 2edfd0776b38aa64eaef68e73f8f3c9c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

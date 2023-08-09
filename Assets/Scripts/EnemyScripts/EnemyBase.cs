@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Scripts.Components;
-using Scripts.Settings;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +7,6 @@ namespace Scripts.EnemyScripts
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(SpriteRenderer))]
-    [RequireComponent(typeof(AudioSource))]
     public abstract class EnemyBase : MonoBehaviour, IDamageable
     {
         [SerializeField] private TypesOfEnemies _enemyType;
@@ -21,8 +19,9 @@ namespace Scripts.EnemyScripts
         private Animator _animator;
         private SpriteRenderer _spriteRenderer;
         private Specification _specification;
-        private AudioSource _audioSource;
         private int _health;
+        private EnemySoundsComponent _enemySounds;
+        private bool _isStopped;
 
         public event UnityAction<EnemyBase, int> OnDie;
 
@@ -36,23 +35,20 @@ namespace Scripts.EnemyScripts
         {
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _audioSource = GetComponent<AudioSource>();
         }
 
-        private void Start()
-        {
-            float volumeCorrection = 0.5f;
-            _audioSource.volume = SoundSettings.Instance.SfxVolume / volumeCorrection;
-        }
-
-        public virtual void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
+        public virtual void Init(Transform target, EnemySpecifications specifications, EnemySoundsComponent enemySounds, Vector2 newPosition)
         {
             if (_specification == null)
                 _specification = specifications.GetSpecification(_enemyType);
+
+            if (_enemySounds == null)
+                _enemySounds = enemySounds;
             
             _health = _specification.Health;
             _target = target;
             transform.position = newPosition;
+            _isStopped = false;
         }
 
         public void TakeDamage(int damage)
@@ -70,8 +66,20 @@ namespace Scripts.EnemyScripts
                 StartState(Stop());
                 
                 _animator.SetTrigger(_burnKey);
-                _audioSource.PlayOneShot(_burnSound);
+                _enemySounds.PlaySound(_burnSound);
             }
+        }
+
+        public void Freeze()
+        {
+            _isStopped = true;
+            StartState(Stop());
+        }
+
+        public void UnFreeze()
+        {
+            _isStopped = false;
+            StartState(GoToTarget());
         }
 
         protected abstract IEnumerator GoToTarget();
@@ -107,11 +115,14 @@ namespace Scripts.EnemyScripts
             yield return null;
         }
 
+        // Calling in animation
         private void StartEnemy()
         {
-            StartState(GoToTarget());
+            if (_isStopped == false)
+                StartState(GoToTarget());
         }
 
+        // Calling in animation
         private void Hold()
         {
             gameObject.SetActive(false);

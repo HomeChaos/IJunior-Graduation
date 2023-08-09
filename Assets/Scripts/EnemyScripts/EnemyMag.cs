@@ -17,9 +17,9 @@ namespace Scripts.EnemyScripts
 
         private EnemyBulletPool _pool;
 
-        public override void Init(Transform target, EnemySpecifications specifications, Vector2 newPosition)
+        public override void Init(Transform target, EnemySpecifications specifications, EnemySoundsComponent enemySounds, Vector2 newPosition)
         {
-            base.Init(target, specifications, newPosition);
+            base.Init(target, specifications, enemySounds, newPosition);
             
             _weapon.Init(target);
             _pool = EnemyBulletPool.Instance;
