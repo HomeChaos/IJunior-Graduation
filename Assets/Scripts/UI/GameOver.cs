@@ -27,14 +27,14 @@ namespace Scripts.UI
         {
             _restart.onClick.AddListener(RestartGame);
             _exit.onClick.AddListener(ExitGame);
-            _player.Dying += OnDying;
+            _player.OnDying += OnDying;
         }
 
         private void OnDisable()
         {
             _restart.onClick.RemoveListener(RestartGame);
             _exit.onClick.RemoveListener(ExitGame);
-            _player.Dying -= OnDying;
+            _player.OnDying -= OnDying;
         }
 
         private void OnDestroy()

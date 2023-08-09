@@ -23,7 +23,7 @@ namespace Scripts.PlayerScripts
         private AudioSource _audioSource;
         private int _health;
         
-        public event UnityAction Dying;
+        public event UnityAction OnDying;
         public event UnityAction<int> OnHealthChange;
 
         private void Awake()
@@ -74,7 +74,7 @@ namespace Scripts.PlayerScripts
 
             if (_health <= 0)
             {
-                Dying?.Invoke();
+                OnDying?.Invoke();
                 _animator.SetTrigger(_deadKey);
             }
         }
