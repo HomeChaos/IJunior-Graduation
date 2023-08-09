@@ -5,6 +5,7 @@
         LittleDemon,
         Demon,
         BigDemon,
-        Mag
+        Mag,
+        Boss
     }
 }

@@ -20,6 +20,10 @@ MonoBehaviour:
       _count: 3
     _delayBetweenPackets: 1
   - _packs:
+    - _enemyTemplate: {fileID: 6897867372858568517, guid: ac287185844dbda4e967a4c302dea8c2, type: 3}
+      _count: 1
+    _delayBetweenPackets: 10
+  - _packs:
     - _enemyTemplate: {fileID: 6897867372858568517, guid: b9d0b7fa9dff30746b031db25597e000, type: 3}
       _count: 3
     - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
