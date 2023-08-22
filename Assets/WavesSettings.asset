@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _waves:
   - _packs:
+    - _enemyTemplate: {fileID: 1145841834906176865, guid: 23e066d7465186f4fb2977bbe6e7eeda, type: 3}
+      _count: 1
+    _delayBetweenPackets: 10000
+  - _packs:
     - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}
       _count: 3
     - _enemyTemplate: {fileID: 6897867372858568517, guid: 90e8629c33dd6014d88eb04459378f0f, type: 3}

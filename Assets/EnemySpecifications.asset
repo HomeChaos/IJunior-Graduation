@@ -43,8 +43,8 @@ MonoBehaviour:
     _reward: 50
   - _type: 4
     _name: "\u0417\u043E\u043B\u043E\u0442\u043E\u0439 \u0437\u0430\u0449\u0438\u0442\u043D\u0438\u043A"
-    _health: 50
-    _speed: 4
+    _health: 250
+    _speed: 6
     _damage: 9
     _speedDamage: 2
     _reward: 150

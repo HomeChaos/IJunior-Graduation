@@ -22,6 +22,7 @@ namespace Scripts.EnemyScripts
         private int _health;
         private EnemySoundsComponent _enemySounds;
         private bool _isStopped;
+        private bool _spriteRendererFlip;
 
         public event UnityAction<EnemyBase, int> OnDie;
 
@@ -35,6 +36,7 @@ namespace Scripts.EnemyScripts
         {
             _animator = GetComponent<Animator>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRendererFlip = _spriteRenderer.flipX;
         }
 
         public virtual void Init(Transform target, EnemySpecifications specifications, EnemySoundsComponent enemySounds, Vector2 newPosition)
@@ -90,11 +92,11 @@ namespace Scripts.EnemyScripts
         {
             if (direction.x > 0)
             {
-                _spriteRenderer.flipX = false;
+                _spriteRenderer.flipX = _spriteRendererFlip;
             }
             else if (direction.x < 0)
             {
-                _spriteRenderer.flipX = true;
+                _spriteRenderer.flipX = !_spriteRendererFlip;
             }
         }
 
@@ -107,7 +109,7 @@ namespace Scripts.EnemyScripts
             StartCoroutine(coroutine);
         }
 
-        private IEnumerator Stop()
+        protected IEnumerator Stop()
         {
             if (_currentState != null) 
                 StopCoroutine(_currentState);

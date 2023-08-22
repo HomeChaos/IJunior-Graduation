@@ -67,6 +67,9 @@ namespace Scripts.PlayerScripts
 
         public void TakeDamage(int damage)
         {
+            Debug.Log($"Take damage: {damage}");
+            return;
+            
             if (_health <= 0)
                 return;
 
