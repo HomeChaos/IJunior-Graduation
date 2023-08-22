@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Scripts.EnemyScripts.HelScripts
 {
@@ -10,7 +11,9 @@ namespace Scripts.EnemyScripts.HelScripts
         [SerializeField] private float _timeToAttack = 5f;
         [SerializeField] private float _minDistanceForTarget = 1f;
         [SerializeField] private float _timeToStomp = 0.3f;
+        [SerializeField] private float _timeToFireArena = 4.5f;
         [SerializeField] private StompArea _stompArea;
+        [SerializeField] private FireArea _fireArea;
 
         private float _timeSinceLastAttack = 0f;
         
@@ -42,17 +45,19 @@ namespace Scripts.EnemyScripts.HelScripts
 
         protected override IEnumerator AttackTarget()
         {
-            Animator.SetTrigger(_stompKey);
-            Stop();
-            yield break;
-            
-            Debug.LogWarning("Проскочили STOP");
-            
             if (IsTargetFarAway())
             {
-                
-                // если цель далеко:
-                //     рандомная атака из двух
+
+                int randomAttack = Random.Range(0, 2);
+
+                if (randomAttack == 0)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
             }
             else
             {
@@ -60,7 +65,7 @@ namespace Scripts.EnemyScripts.HelScripts
                 Stop();
             }
 
-            throw new System.NotImplementedException();
+            yield break;
         }
 
         private bool IsTimeToAttack()
@@ -87,6 +92,11 @@ namespace Scripts.EnemyScripts.HelScripts
             StartState(PerformStomp());
         }
 
+        private void OnFireAreaAction()
+        {
+            StartState(PerformFireArea());
+        }
+
         private IEnumerator PerformStomp()
         {
             _stompArea.StartAttack();
@@ -94,10 +104,11 @@ namespace Scripts.EnemyScripts.HelScripts
             _stompArea.StopAttack();
         }
 
-        [ContextMenu("[!] Test attack")]
-        private void StartAttackTest()
+        private IEnumerator PerformFireArea()
         {
-            Animator.SetTrigger(_stompKey);
+            _fireArea.StartAttack();
+            yield return new WaitForSeconds(_timeToFireArena);
+            _fireArea.StopAttack();
         }
     }
 }
