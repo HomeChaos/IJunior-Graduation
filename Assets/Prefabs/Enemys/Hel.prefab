@@ -348,7 +348,7 @@ MonoBehaviour:
   _timeToStomp: 0.3
   _timeToFireArena: 4.5
   _stompArea: {fileID: 2031661435999190007}
-  _fireArea: {fileID: -5372184128400992768}
+  _fireAreaSpawner: {fileID: -5372184128400992768}
 --- !u!114 &2031661435999190007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +376,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 2368815330047025311}
+  _frequencyToSpawn: 0.3
+  _areaTemplate: {fileID: 4123280551907139999, guid: 3a2aef4e675eb7c4894d657b2297d2b3, type: 3}
+  _container: {fileID: 1145841834906176865}
 --- !u!1 &6576478976810618324
 GameObject:
   m_ObjectHideFlags: 0

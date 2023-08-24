@@ -13,25 +13,27 @@ namespace Scripts.EnemyScripts.HelScripts
         [SerializeField] private float _timeToStomp = 0.3f;
         [SerializeField] private float _timeToFireArena = 4.5f;
         [SerializeField] private StompArea _stompArea;
-        [SerializeField] private FireArea _fireArea;
+        [SerializeField] private FireAreaSpawner _fireAreaSpawner;
 
         private float _timeSinceLastAttack = 0f;
-        
+
         private readonly int _fireAreaKey = Animator.StringToHash("FireArea");
         private readonly int _stompKey = Animator.StringToHash("Stomp");
         private readonly int _summonKey = Animator.StringToHash("Summon");
-        
-        public override void Init(Transform target, EnemySpecifications specifications, EnemySoundsComponent enemySounds, Vector2 newPosition)
+
+        public override void Init(Transform target, EnemySpecifications specifications,
+            EnemySoundsComponent enemySounds, Vector2 newPosition)
         {
             base.Init(target, specifications, enemySounds, newPosition);
             _stompArea.Init(transform, target);
+            _fireAreaSpawner.Init(target);
         }
 
         protected override IEnumerator GoToTarget()
         {
             var waitForEndOfFrame = new WaitForEndOfFrame();
             _timeSinceLastAttack = 0f;
-            
+
             while (IsTargetFarAway() && IsTimeToAttack() == false)
             {
                 Vector3 direction = Target.position - transform.position;
@@ -39,7 +41,7 @@ namespace Scripts.EnemyScripts.HelScripts
                 transform.Translate(direction.normalized * Specification.Speed * Time.deltaTime);
                 yield return waitForEndOfFrame;
             }
-            
+
             StartState(AttackTarget());
         }
 
@@ -47,23 +49,19 @@ namespace Scripts.EnemyScripts.HelScripts
         {
             if (IsTargetFarAway())
             {
-
                 int randomAttack = Random.Range(0, 2);
 
                 if (randomAttack == 0)
-                {
-                    
-                }
+                    Animator.SetTrigger(_fireAreaKey);
                 else
-                {
-                    
-                }
+                    Animator.SetTrigger(_fireAreaKey);
             }
             else
             {
                 Animator.SetTrigger(_stompKey);
-                Stop();
             }
+            
+            Stop();
 
             yield break;
         }
@@ -73,7 +71,7 @@ namespace Scripts.EnemyScripts.HelScripts
             _timeSinceLastAttack += Time.deltaTime;
             return _timeSinceLastAttack > _timeToAttack;
         }
-        
+
         private bool IsTargetFarAway()
         {
             var distance = Vector3.Distance(Target.position, transform.position);
@@ -86,15 +84,12 @@ namespace Scripts.EnemyScripts.HelScripts
             StartState(GoToTarget());
         }
 
+        #region Stomp
+
         // Calling in animation
         private void OnStompAction()
         {
             StartState(PerformStomp());
-        }
-
-        private void OnFireAreaAction()
-        {
-            StartState(PerformFireArea());
         }
 
         private IEnumerator PerformStomp()
@@ -104,11 +99,23 @@ namespace Scripts.EnemyScripts.HelScripts
             _stompArea.StopAttack();
         }
 
+        #endregion
+        
+        #region FireArea
+
+        // Calling in animation
+        private void OnFireAreaAction()
+        {
+            StartState(PerformFireArea());
+        }
+
         private IEnumerator PerformFireArea()
         {
-            _fireArea.StartAttack();
+            _fireAreaSpawner.StartAttack();
             yield return new WaitForSeconds(_timeToFireArena);
-            _fireArea.StopAttack();
+            _fireAreaSpawner.StopAttack();
         }
+
+        #endregion
     }
 }
